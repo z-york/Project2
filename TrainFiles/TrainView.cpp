@@ -3,7 +3,7 @@
 // see the header for details
 // look for TODO: to see things you want to add/change
 // 
-//#include <GL/glew.h>
+#include <GL/glew.h>
 #include "TrainView.H"
 #include "TrainWindow.H"
 
@@ -23,6 +23,7 @@
 using namespace std;
 static GLUquadric * q;
 static GLUquadric * p;
+static GLuint shader1;
 static bool loaded;
 #define PI 3.14159265
 #ifdef EXAMPLE_SOLUTION
@@ -203,7 +204,8 @@ void TrainView::draw()
 		//if (glewInit() == GLEW_OK) {
 			//printf(GLEW_OK);
 			char* err;
-			int x = loadShader("vertexShader.c", "fragmentShader.c", err);
+			shader1 = loadShader("vertexShader.c", "fragmentShader.c", err);
+			printf("x = %d\n", shader1);
 			//fprintf(stderr, "Error: %s\n", glewGetErrorString(err));
 			loaded = true;
 		//}
@@ -343,6 +345,18 @@ void TrainView::drawStuff(bool doingShadows)
 	//if (!doingShadows) {
 	//if (!tw->trainCam->value())
 		//world->train.draw();
+
+	glUseProgram(shader1);
+	GLint scale = glGetUniformLocation(shader1, "scale");
+	if (scale != -1)
+	{
+		glUniform1f(scale, 1);
+	}
+	GLint shad = glGetUniformLocation(shader1, "shadows");
+	if (shad != -1)
+	{
+		glUniform1f(shad, doingShadows);
+	}
 	
 	if (!q)
 	{
@@ -359,6 +373,8 @@ void TrainView::drawStuff(bool doingShadows)
 	drawTree(doingShadows, -5, 5, -5);
 	drawTree(doingShadows, 50, 5, 50);
 	drawTree(doingShadows, -35, 5, 50);
+
+	glUseProgram(0);
 
 
 	// draw the track

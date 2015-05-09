@@ -128,7 +128,7 @@ GLuint loadShader(const char* vertexFileName, const char* fragmentFileName, char
 	stringstream vertData;
 	if (!readShaderFile(vertexFileName, &vertData))
 	{
-		printf("Couldn't open file.");
+		printf("Couldn't open vertex shader file.");
 		error = "Couldn't open vertex shader file!";
 		return 0;
 	}
