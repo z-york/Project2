@@ -13,6 +13,7 @@
 //
 // written October 2008, by Mike Gleicher
 //
+#include "GL\glew.h"
 class TrainWindow;
 class World;
 class Pnt3f;
@@ -66,10 +67,16 @@ public:
 	// simple - just remember which cube is selected
 	int selectedCube;
 
-	int color;
+	GLuint shaderColor;
+	GLuint shaderPos;
+
+	GLfloat red;
+	GLfloat green;
+	GLfloat blue;
 
 	void drawTrain(bool doingShadows);
 	void drawTree(bool doingShadows, int x, int y, int z);
+	void drawFlag(bool doingShadows, int x, int y, int z);
 
 	void drawTrack(bool doingShadows, float segments, float tension);
 	Pnt3f calcSide(ControlPoint pnt0, ControlPoint pnt1, float t);

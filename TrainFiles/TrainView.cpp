@@ -359,7 +359,8 @@ void TrainView::drawStuff(bool doingShadows)
 	{
 		glUniform1f(shad, doingShadows);
 	}
-	color = glGetUniformLocation(shader1, "color");
+	shaderColor = glGetUniformLocation(shader1, "color");
+	shaderPos = glGetUniformLocation(shader1, "pos");
 	
 	if (!q)
 	{
@@ -376,6 +377,7 @@ void TrainView::drawStuff(bool doingShadows)
 	drawTree(doingShadows, -5, 5, -5);
 	drawTree(doingShadows, 50, 5, 50);
 	drawTree(doingShadows, -35, 5, 50);
+	drawFlag(doingShadows, 0, 0, 0);
 
 	glUseProgram(0);
 
@@ -602,16 +604,22 @@ glm::vec3 convertToVec(Pnt3f pnt) {
 
 void TrainView::drawTrain(bool doingShadows)	{
 
-	glm::vec3 currColor;
+	//glm::vec3 currColor;
 	//If drawing shadows change color to grey
 	if (doingShadows) {
-		currColor = vec3(.1, .1, .1);
+		/*
+		red = 0.1f;
+		green = 0.1f;
+		blue = 0.1f;
+		*/
 	}
 	//Make the train red
 	else {
-		currColor = vec3(1, 0, 0);
+		red = 1.0f;
+		green = 0.0f;
+		blue = 0.0f;
 	}
-	//glUniformMatrix3fv(color, 1, 0, currColor);
+	glUniform3f(shaderColor, red, green, blue);
 	Pnt3f curr = getPos(world->trainU);
 	Pnt3f tan = getTan(world->trainU);
 	
@@ -622,6 +630,7 @@ void TrainView::drawTrain(bool doingShadows)	{
 	glPushMatrix();
 	//Translated to the right position on the line
 	glTranslated(curr.x, curr.y + 5, curr.z);
+	//glUniform3f(shaderPos, curr.x, curr.y + 5, curr.z);
 	glScaled(10, 10, 10);
 	//Rotated to match the tangent (+135 to correct for drawing the train in different coordinates)
 	glRotated(deg + 135, 0, 1, 0);
@@ -651,6 +660,10 @@ void TrainView::drawTrain(bool doingShadows)	{
 	glPopMatrix();
 
 	//Draw all 4 wheels
+	red = .6;
+	green = .4;
+	blue = .2;
+	glUniform3f(shaderColor, red, green, blue);
 	glPushMatrix();
 	glColor3d(.6, .4, .2);
 	glTranslated(-.65, -.2, .4);
@@ -660,10 +673,18 @@ void TrainView::drawTrain(bool doingShadows)	{
 	glScaled(-1, 1, 1);
 	glColor3d(.6, .4, .2);
 	gluDisk(q, .1, .3, 100, 100);
+	red = 0;
+	green = 0;
+	blue = 0;
+	glUniform3f(shaderColor, red, green, blue);
 	glColor3d(0, 0, 0);
 	gluDisk(q, 0, .1, 100, 100);
 	glPopMatrix();
 
+	red = .6;
+	green = .4;
+	blue = .2;
+	glUniform3f(shaderColor, red, green, blue);
 	glPushMatrix();
 	glColor3d(.6, .4, .2);
 	glTranslated(.65, -.2, .4);
@@ -673,10 +694,18 @@ void TrainView::drawTrain(bool doingShadows)	{
 	glScaled(-1, 1, 1);
 	glColor3d(.6, .4, .2);
 	gluDisk(q, .1, .3, 100, 100);
+	red = 0;
+	green = 0;
+	blue = 0;
+	glUniform3f(shaderColor, red, green, blue);
 	glColor3d(0, 0, 0);
 	gluDisk(q, 0, .1, 100, 100);
 	glPopMatrix();
 
+	red = .6;
+	green = .4;
+	blue = .2;
+	glUniform3f(shaderColor, red, green, blue);
 	glPushMatrix();
 	glColor3d(.6, .4, .2);
 	glRotated(180, -1, 0, 0);
@@ -687,10 +716,18 @@ void TrainView::drawTrain(bool doingShadows)	{
 	glScaled(-1, 1, 1);
 	glColor3d(.6, .4, .2);
 	gluDisk(q, .1, .3, 100, 100);
+	red = 0;
+	green = 0;
+	blue = 0;
+	glUniform3f(shaderColor, red, green, blue);
 	glColor3d(0, 0, 0);
 	gluDisk(q, 0, .1, 100, 100);
 	glPopMatrix();
 
+	red = .6;
+	green = .4;
+	blue = .2;
+	glUniform3f(shaderColor, red, green, blue);
 	glPushMatrix();
 	glColor3d(.6, .4, .2);
 	glRotated(180, -1, 0, 0);
@@ -701,6 +738,10 @@ void TrainView::drawTrain(bool doingShadows)	{
 	glScaled(-1, 1, 1);
 	glColor3d(.6, .4, .2);
 	gluDisk(q, .1, .3, 100, 100);
+	red = 0;
+	green = 0;
+	blue = 0;
+	glUniform3f(shaderColor, red, green, blue);
 	glColor3d(0, 0, 0);
 	gluDisk(q, 0, .1, 100, 100);
 	glPopMatrix();
@@ -718,12 +759,20 @@ void TrainView::drawTree(bool doingShadows, int x, int y, int z) {
 		glColor3d(0, 1, 0);
 	}
 
+	red = .6;
+	green = .4;
+	blue = .2;
+	glUniform3f(shaderColor, red, green, blue);
 	glPushMatrix();
-	glColor3d(.6, .4, .2);
+	//glColor3d(.6, .4, .2);
 	glTranslated(x, y, z);
 	glScaled(10, 10, 10);
 	glRotatef(90, 1, 0, 0);
 	gluCylinder(q, .1, .25, .5, 100, 100);
+	red = 0;
+	green = 1;
+	blue = 0;
+	glUniform3f(shaderColor, red, green, blue);
 	glColor3d(0, 1, 0);
 	glTranslated(0, 0, -.5);
 	gluCylinder(q, .25, .5, .5, 100, 100);
@@ -734,6 +783,47 @@ void TrainView::drawTree(bool doingShadows, int x, int y, int z) {
 	glPopMatrix();
 }
 
+void TrainView::drawFlag(bool doingShadows, int x, int y, int z) {
+	p = gluNewQuadric();
+
+	if (doingShadows) {
+		glColor3f(.1, .1, .1);
+	}
+	else {
+		glColor3d(0, 1, 0);
+	}
+
+	red = .3;
+	green = .3;
+	blue = .3;
+	glUniform3f(shaderColor, red, green, blue);
+	glPushMatrix();
+	//glColor3d(.6, .4, .2);
+	glTranslated(x, y, z);
+	glScaled(10, 10, 10);
+	glRotatef(-90, 1, 0, 0);
+	gluCylinder(q, .05, .05, 5, 100, 100);
+	
+	red = 1;
+	green = 1;
+	blue = 1;
+	glUniform3f(shaderColor, red, green, blue);
+	glColor3d(0, 1, 0);
+	glTranslated(0, 0, 4);
+	glRotatef(90, 1, 0, 0);
+	//glRectf(q, .25, .5, .5, 100, 100);
+	glBegin(GL_QUADS);
+	glColor3d(1, 0, 0);
+	glVertex3f(0, 0, 0);
+	glColor3d(1, 1, 0);
+	glVertex3f(2, 0, 0);
+	glColor3d(1, 1, 1);
+	glVertex3f(2, 1, 0);
+	glColor3d(0, 1, 1);
+	glVertex3f(0, 1, 0);
+	glEnd();
+	glPopMatrix();
+}
 
 // CVS Header - if you don't know what this is, don't worry about it
 // This code tells us where the original came from in CVS

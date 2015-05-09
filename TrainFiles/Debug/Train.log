@@ -1,20 +1,6 @@
-﻿Build started 5/9/2015 4:59:04 PM.
+﻿Build started 5/9/2015 6:16:05 PM.
      1>Project "C:\Users\zyork\Source\Repos\Project2\TrainFiles\Train.vcxproj" on node 2 (Build target(s)).
-     1>ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /I"C:\Program Files\glew\include" /I"C:\Program Files (x86)\FLTK 1.3.2\include" /I"C:\Program Files (x86)\glm" /I"C:\Program Files (x86)\glew\include" /I.. /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _CRT_SECURE_NO_WARNINGS /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt CallBacks.cpp TrainView.cpp TrainWindow.cpp
-         TrainWindow.cpp
-     1>c:\users\zyork\source\repos\project2\trainfiles\trainwindow.cpp(196): warning C4305: 'initializing' : truncation from 'double' to 'float'
-         Generating Code...
-         Compiling...
-         TrainView.cpp
-     1>c:\users\zyork\source\repos\project2\trainfiles\trainview.cpp(279): warning C4244: 'argument' : conversion from 'unsigned int' to 'float', possible loss of data
-     1>c:\users\zyork\source\repos\project2\trainfiles\trainview.cpp(460): warning C4244: 'argument' : conversion from 'int' to 'const float', possible loss of data
-     1>c:\users\zyork\source\repos\project2\trainfiles\trainview.cpp(619): warning C4244: 'initializing' : conversion from 'double' to 'float', possible loss of data
-     1>c:\users\zyork\source\repos\project2\trainfiles\trainview.cpp(715): warning C4305: 'argument' : truncation from 'double' to 'GLfloat'
-         Generating Code...
-         Skipping... (no relevant changes detected)
-         CallBacks.cpp
-       Link:
+     1>Link:
          C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\zyork\Source\Repos\Project2\TrainFiles\Debug\Train.exe" /INCREMENTAL /NOLOGO /LIBPATH:"C:\Program Files\glew\lib" /LIBPATH:"C:\Program Files (x86)\FLTK 1.3.2\lib" comctl32.lib wsock32.lib opengl32.lib glu32.lib "C:\Program Files\glew\lib\Release\Win32\glew32s.lib" fltkgld.lib fltkd.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Users\zyork\Source\Repos\Project2\TrainFiles\Debug\Train.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE:NO /IMPLIB:"C:\Users\zyork\Source\Repos\Project2\TrainFiles\Debug\Train.lib" /MACHINE:X86 /SAFESEH Debug\CallBacks.obj
          Debug\ControlPoint.obj
          Debug\ShaderTools.obj
@@ -29,6 +15,7 @@
      1>LINK : warning LNK4098: defaultlib 'LIBCMT' conflicts with use of other libs; use /NODEFAULTLIB:library
      1>TrainView.obj : warning LNK4049: locally defined symbol ___glewGetUniformLocation imported
      1>TrainView.obj : warning LNK4049: locally defined symbol ___glewUniform1f imported
+     1>TrainView.obj : warning LNK4049: locally defined symbol ___glewUniform3f imported
      1>TrainView.obj : warning LNK4049: locally defined symbol ___glewUseProgram imported
      1>glew32s.lib(glew.obj) : warning LNK4204: 'C:\Users\zyork\Source\Repos\Project2\TrainFiles\Debug\vc120.pdb' is missing debugging information for referencing module; linking object as if no debug info
      1>fltkgld.lib(Fl_Gl_Choice.obj) : warning LNK4204: 'C:\Users\zyork\Source\Repos\Project2\TrainFiles\Debug\vc120.pdb' is missing debugging information for referencing module; linking object as if no debug info
@@ -127,4 +114,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:01.82
+Time Elapsed 00:00:00.44

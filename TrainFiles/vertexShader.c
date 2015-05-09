@@ -1,4 +1,5 @@
 uniform float scale;
+//uniform vec3 pos;
 
 void main(void)
 {
@@ -6,8 +7,9 @@ void main(void)
    a.x = a.x * scale;
    a.y = a.y * scale;
    //a.z = a.z * scale;
+   
 
 
-   gl_Position = gl_ModelViewProjectionMatrix * a;
+   gl_Position = (gl_ModelViewProjectionMatrix * a); // +vec4(pos, 1.0);
 
 }    
