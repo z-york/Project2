@@ -21,9 +21,11 @@
 #include <iostream>
 #include "ShaderTools.H"
 using namespace std;
+using namespace glm;
 static GLUquadric * q;
 static GLUquadric * p;
 static GLuint shader1;
+//static GLint color;
 static bool loaded;
 #define PI 3.14159265
 #ifdef EXAMPLE_SOLUTION
@@ -357,6 +359,7 @@ void TrainView::drawStuff(bool doingShadows)
 	{
 		glUniform1f(shad, doingShadows);
 	}
+	color = glGetUniformLocation(shader1, "color");
 	
 	if (!q)
 	{
@@ -599,14 +602,16 @@ glm::vec3 convertToVec(Pnt3f pnt) {
 
 void TrainView::drawTrain(bool doingShadows)	{
 
+	glm::vec3 currColor;
 	//If drawing shadows change color to grey
 	if (doingShadows) {
-		glColor3f(.1, .1, .1);
+		currColor = vec3(.1, .1, .1);
 	}
 	//Make the train red
 	else {
-		glColor3f(1, 0, 0);
+		currColor = vec3(1, 0, 0);
 	}
+	//glUniformMatrix3fv(color, 1, 0, currColor);
 	Pnt3f curr = getPos(world->trainU);
 	Pnt3f tan = getTan(world->trainU);
 	

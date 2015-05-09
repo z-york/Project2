@@ -66,6 +66,8 @@ public:
 	// simple - just remember which cube is selected
 	int selectedCube;
 
+	int color;
+
 	void drawTrain(bool doingShadows);
 	void drawTree(bool doingShadows, int x, int y, int z);
 
