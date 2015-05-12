@@ -18,6 +18,7 @@ class TrainWindow;
 class World;
 class Pnt3f;
 class ControlPoint;
+class Texture;
 
 //
 // You might change the TrainView in order to add different objects to
@@ -77,6 +78,8 @@ public:
 	void drawTrain(bool doingShadows);
 	void drawTree(bool doingShadows, int x, int y, int z);
 	void drawFlag(bool doingShadows, int x, int y, int z);
+	void drawBalloon();
+	void drawCurve();
 
 	void drawTrack(bool doingShadows, float segments, float tension);
 	Pnt3f calcSide(ControlPoint pnt0, ControlPoint pnt1, float t);
