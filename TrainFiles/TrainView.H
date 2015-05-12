@@ -77,7 +77,7 @@ public:
 
 	void drawTrain(bool doingShadows);
 	void drawTree(bool doingShadows, int x, int y, int z);
-	void drawFlag(bool doingShadows, int x, int y, int z);
+	void drawFlag(bool doingShadows);
 	void drawBalloon();
 	void drawCurve();
 

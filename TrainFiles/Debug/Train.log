@@ -1,33 +1,36 @@
-﻿Build started 5/11/2015 7:24:40 PM.
+﻿Build started 5/11/2015 11:31:32 PM.
      1>Project "C:\Users\zyork\Source\Repos\Project2\TrainFiles\Train.vcxproj" on node 2 (Build target(s)).
      1>ClCompile:
          C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /I"C:\Program Files\glew\include" /I"C:\Program Files (x86)\FLTK 1.3.2\include" /I"C:\Program Files (x86)\glm" /I"C:\Program Files (x86)\glew\include" /I.. /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _CRT_SECURE_NO_WARNINGS /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt TrainView.cpp
          TrainView.cpp
-     1>c:\users\zyork\source\repos\project2\trainfiles\trainview.cpp(315): warning C4244: 'argument' : conversion from 'unsigned int' to 'float', possible loss of data
-     1>c:\users\zyork\source\repos\project2\trainfiles\trainview.cpp(514): warning C4244: 'argument' : conversion from 'int' to 'const float', possible loss of data
-     1>c:\users\zyork\source\repos\project2\trainfiles\trainview.cpp(679): warning C4244: 'initializing' : conversion from 'double' to 'float', possible loss of data
-     1>c:\users\zyork\source\repos\project2\trainfiles\trainview.cpp(715): warning C4305: '=' : truncation from 'double' to 'GLfloat'
-     1>c:\users\zyork\source\repos\project2\trainfiles\trainview.cpp(716): warning C4305: '=' : truncation from 'double' to 'GLfloat'
-     1>c:\users\zyork\source\repos\project2\trainfiles\trainview.cpp(717): warning C4305: '=' : truncation from 'double' to 'GLfloat'
-     1>c:\users\zyork\source\repos\project2\trainfiles\trainview.cpp(736): warning C4305: '=' : truncation from 'double' to 'GLfloat'
-     1>c:\users\zyork\source\repos\project2\trainfiles\trainview.cpp(737): warning C4305: '=' : truncation from 'double' to 'GLfloat'
-     1>c:\users\zyork\source\repos\project2\trainfiles\trainview.cpp(738): warning C4305: '=' : truncation from 'double' to 'GLfloat'
-     1>c:\users\zyork\source\repos\project2\trainfiles\trainview.cpp(757): warning C4305: '=' : truncation from 'double' to 'GLfloat'
-     1>c:\users\zyork\source\repos\project2\trainfiles\trainview.cpp(758): warning C4305: '=' : truncation from 'double' to 'GLfloat'
-     1>c:\users\zyork\source\repos\project2\trainfiles\trainview.cpp(759): warning C4305: '=' : truncation from 'double' to 'GLfloat'
-     1>c:\users\zyork\source\repos\project2\trainfiles\trainview.cpp(779): warning C4305: '=' : truncation from 'double' to 'GLfloat'
-     1>c:\users\zyork\source\repos\project2\trainfiles\trainview.cpp(780): warning C4305: '=' : truncation from 'double' to 'GLfloat'
-     1>c:\users\zyork\source\repos\project2\trainfiles\trainview.cpp(781): warning C4305: '=' : truncation from 'double' to 'GLfloat'
-     1>c:\users\zyork\source\repos\project2\trainfiles\trainview.cpp(808): warning C4305: 'argument' : truncation from 'double' to 'GLfloat'
-     1>c:\users\zyork\source\repos\project2\trainfiles\trainview.cpp(814): warning C4305: '=' : truncation from 'double' to 'GLfloat'
-     1>c:\users\zyork\source\repos\project2\trainfiles\trainview.cpp(815): warning C4305: '=' : truncation from 'double' to 'GLfloat'
-     1>c:\users\zyork\source\repos\project2\trainfiles\trainview.cpp(816): warning C4305: '=' : truncation from 'double' to 'GLfloat'
-     1>c:\users\zyork\source\repos\project2\trainfiles\trainview.cpp(855): warning C4244: 'initializing' : conversion from 'double' to 'float', possible loss of data
-     1>c:\users\zyork\source\repos\project2\trainfiles\trainview.cpp(861): warning C4244: 'initializing' : conversion from 'double' to 'float', possible loss of data
-     1>c:\users\zyork\source\repos\project2\trainfiles\trainview.cpp(1193): warning C4305: 'argument' : truncation from 'double' to 'GLfloat'
+     1>c:\users\zyork\source\repos\project2\trainfiles\trainview.cpp(49): warning C4244: 'argument' : conversion from 'time_t' to 'unsigned int', possible loss of data
+     1>c:\users\zyork\source\repos\project2\trainfiles\trainview.cpp(320): warning C4244: 'argument' : conversion from 'unsigned int' to 'float', possible loss of data
+     1>c:\users\zyork\source\repos\project2\trainfiles\trainview.cpp(526): warning C4244: 'argument' : conversion from 'int' to 'const float', possible loss of data
+     1>c:\users\zyork\source\repos\project2\trainfiles\trainview.cpp(691): warning C4244: 'initializing' : conversion from 'double' to 'float', possible loss of data
+     1>c:\users\zyork\source\repos\project2\trainfiles\trainview.cpp(727): warning C4305: '=' : truncation from 'double' to 'GLfloat'
+     1>c:\users\zyork\source\repos\project2\trainfiles\trainview.cpp(728): warning C4305: '=' : truncation from 'double' to 'GLfloat'
+     1>c:\users\zyork\source\repos\project2\trainfiles\trainview.cpp(729): warning C4305: '=' : truncation from 'double' to 'GLfloat'
+     1>c:\users\zyork\source\repos\project2\trainfiles\trainview.cpp(748): warning C4305: '=' : truncation from 'double' to 'GLfloat'
+     1>c:\users\zyork\source\repos\project2\trainfiles\trainview.cpp(749): warning C4305: '=' : truncation from 'double' to 'GLfloat'
+     1>c:\users\zyork\source\repos\project2\trainfiles\trainview.cpp(750): warning C4305: '=' : truncation from 'double' to 'GLfloat'
+     1>c:\users\zyork\source\repos\project2\trainfiles\trainview.cpp(769): warning C4305: '=' : truncation from 'double' to 'GLfloat'
+     1>c:\users\zyork\source\repos\project2\trainfiles\trainview.cpp(770): warning C4305: '=' : truncation from 'double' to 'GLfloat'
+     1>c:\users\zyork\source\repos\project2\trainfiles\trainview.cpp(771): warning C4305: '=' : truncation from 'double' to 'GLfloat'
+     1>c:\users\zyork\source\repos\project2\trainfiles\trainview.cpp(791): warning C4305: '=' : truncation from 'double' to 'GLfloat'
+     1>c:\users\zyork\source\repos\project2\trainfiles\trainview.cpp(792): warning C4305: '=' : truncation from 'double' to 'GLfloat'
+     1>c:\users\zyork\source\repos\project2\trainfiles\trainview.cpp(793): warning C4305: '=' : truncation from 'double' to 'GLfloat'
+     1>c:\users\zyork\source\repos\project2\trainfiles\trainview.cpp(821): warning C4305: 'argument' : truncation from 'double' to 'GLfloat'
+     1>c:\users\zyork\source\repos\project2\trainfiles\trainview.cpp(827): warning C4305: '=' : truncation from 'double' to 'GLfloat'
+     1>c:\users\zyork\source\repos\project2\trainfiles\trainview.cpp(828): warning C4305: '=' : truncation from 'double' to 'GLfloat'
+     1>c:\users\zyork\source\repos\project2\trainfiles\trainview.cpp(829): warning C4305: '=' : truncation from 'double' to 'GLfloat'
+     1>c:\users\zyork\source\repos\project2\trainfiles\trainview.cpp(868): warning C4244: 'initializing' : conversion from 'double' to 'float', possible loss of data
+     1>c:\users\zyork\source\repos\project2\trainfiles\trainview.cpp(874): warning C4244: 'initializing' : conversion from 'double' to 'float', possible loss of data
+     1>c:\users\zyork\source\repos\project2\trainfiles\trainview.cpp(925): warning C4305: 'argument' : truncation from 'double' to 'GLfloat'
+     1>c:\users\zyork\source\repos\project2\trainfiles\trainview.cpp(966): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+     1>c:\users\zyork\source\repos\project2\trainfiles\trainview.cpp(967): warning C4244: 'initializing' : conversion from 'double' to 'float', possible loss of data
      1>cl : Command line warning D9028: minimal rebuild failure, reverting to normal build
        Link:
-         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\zyork\Source\Repos\Project2\TrainFiles\Debug\Train.exe" /INCREMENTAL /NOLOGO /LIBPATH:"C:\Program Files\glew\lib" /LIBPATH:"C:\Program Files (x86)\FLTK 1.3.2\lib" comctl32.lib wsock32.lib opengl32.lib glu32.lib "C:\Program Files\glew\lib\Release\Win32\glew32s.lib" fltkgld.lib fltkd.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Users\zyork\Source\Repos\Project2\TrainFiles\Debug\Train.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE:NO /IMPLIB:"C:\Users\zyork\Source\Repos\Project2\TrainFiles\Debug\Train.lib" /MACHINE:X86 /SAFESEH Debug\CallBacks.obj
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\zyork\Source\Repos\Project2\TrainFiles\Debug\Train.exe" /INCREMENTAL /NOLOGO /LIBPATH:"C:\Program Files\glew\lib" /LIBPATH:"C:\Program Files (x86)\FLTK 1.3.2\lib" comctl32.lib wsock32.lib opengl32.lib glu32.lib "C:\Program Files\glew\lib\Release\Win32\glew32s.lib" fltkgld.lib fltkd.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Users\zyork\Source\Repos\Project2\TrainFiles\Debug\Train.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE:NO /IMPLIB:"C:\Users\zyork\Source\Repos\Project2\TrainFiles\Debug\Train.lib" /MACHINE:X86 /SAFESEH:NO Debug\CallBacks.obj
          Debug\ControlPoint.obj
          Debug\ShaderTools.obj
          Debug\Train.obj
@@ -37,9 +40,106 @@
          Debug\3DUtils.obj
          Debug\ArcBallCam.obj
          Debug\Pnt3f.obj
+     1>LINK : warning LNK4098: defaultlib 'LIBCMT' conflicts with use of other libs; use /NODEFAULTLIB:library
+     1>TrainView.obj : warning LNK4049: locally defined symbol ___glewGetUniformLocation imported
+     1>TrainView.obj : warning LNK4049: locally defined symbol ___glewUniform1f imported
+     1>TrainView.obj : warning LNK4049: locally defined symbol ___glewUniform3f imported
+     1>TrainView.obj : warning LNK4049: locally defined symbol ___glewUseProgram imported
+     1>glew32s.lib(glew.obj) : warning LNK4204: 'C:\Users\zyork\Source\Repos\Project2\TrainFiles\Debug\vc120.pdb' is missing debugging information for referencing module; linking object as if no debug info
+     1>fltkgld.lib(Fl_Gl_Choice.obj) : warning LNK4204: 'C:\Users\zyork\Source\Repos\Project2\TrainFiles\Debug\vc120.pdb' is missing debugging information for referencing module; linking object as if no debug info
+     1>fltkgld.lib(Fl_Gl_Device_Plugin.obj) : warning LNK4204: 'C:\Users\zyork\Source\Repos\Project2\TrainFiles\Debug\vc120.pdb' is missing debugging information for referencing module; linking object as if no debug info
+     1>fltkgld.lib(Fl_Gl_Window.obj) : warning LNK4204: 'C:\Users\zyork\Source\Repos\Project2\TrainFiles\Debug\vc120.pdb' is missing debugging information for referencing module; linking object as if no debug info
+     1>fltkgld.lib(gl_draw.obj) : warning LNK4204: 'C:\Users\zyork\Source\Repos\Project2\TrainFiles\Debug\vc120.pdb' is missing debugging information for referencing module; linking object as if no debug info
+     1>fltkd.lib(case.obj) : warning LNK4204: 'C:\Users\zyork\Source\Repos\Project2\TrainFiles\Debug\vc120.pdb' is missing debugging information for referencing module; linking object as if no debug info
+     1>fltkd.lib(filename_absolute.obj) : warning LNK4204: 'C:\Users\zyork\Source\Repos\Project2\TrainFiles\Debug\vc120.pdb' is missing debugging information for referencing module; linking object as if no debug info
+     1>fltkd.lib(filename_expand.obj) : warning LNK4204: 'C:\Users\zyork\Source\Repos\Project2\TrainFiles\Debug\vc120.pdb' is missing debugging information for referencing module; linking object as if no debug info
+     1>fltkd.lib(filename_isdir.obj) : warning LNK4204: 'C:\Users\zyork\Source\Repos\Project2\TrainFiles\Debug\vc120.pdb' is missing debugging information for referencing module; linking object as if no debug info
+     1>fltkd.lib(filename_list.obj) : warning LNK4204: 'C:\Users\zyork\Source\Repos\Project2\TrainFiles\Debug\vc120.pdb' is missing debugging information for referencing module; linking object as if no debug info
+     1>fltkd.lib(filename_match.obj) : warning LNK4204: 'C:\Users\zyork\Source\Repos\Project2\TrainFiles\Debug\vc120.pdb' is missing debugging information for referencing module; linking object as if no debug info
+     1>fltkd.lib(Fl.obj) : warning LNK4204: 'C:\Users\zyork\Source\Repos\Project2\TrainFiles\Debug\vc120.pdb' is missing debugging information for referencing module; linking object as if no debug info
+     1>fltkd.lib(Fl_abort.obj) : warning LNK4204: 'C:\Users\zyork\Source\Repos\Project2\TrainFiles\Debug\vc120.pdb' is missing debugging information for referencing module; linking object as if no debug info
+     1>fltkd.lib(Fl_add_idle.obj) : warning LNK4204: 'C:\Users\zyork\Source\Repos\Project2\TrainFiles\Debug\vc120.pdb' is missing debugging information for referencing module; linking object as if no debug info
+     1>fltkd.lib(fl_arc.obj) : warning LNK4204: 'C:\Users\zyork\Source\Repos\Project2\TrainFiles\Debug\vc120.pdb' is missing debugging information for referencing module; linking object as if no debug info
+     1>fltkd.lib(fl_arci.obj) : warning LNK4204: 'C:\Users\zyork\Source\Repos\Project2\TrainFiles\Debug\vc120.pdb' is missing debugging information for referencing module; linking object as if no debug info
+     1>fltkd.lib(fl_ask.obj) : warning LNK4204: 'C:\Users\zyork\Source\Repos\Project2\TrainFiles\Debug\vc120.pdb' is missing debugging information for referencing module; linking object as if no debug info
+     1>fltkd.lib(Fl_Bitmap.obj) : warning LNK4204: 'C:\Users\zyork\Source\Repos\Project2\TrainFiles\Debug\vc120.pdb' is missing debugging information for referencing module; linking object as if no debug info
+     1>fltkd.lib(Fl_Box.obj) : warning LNK4204: 'C:\Users\zyork\Source\Repos\Project2\TrainFiles\Debug\vc120.pdb' is missing debugging information for referencing module; linking object as if no debug info
+     1>fltkd.lib(fl_boxtype.obj) : warning LNK4204: 'C:\Users\zyork\Source\Repos\Project2\TrainFiles\Debug\vc120.pdb' is missing debugging information for referencing module; linking object as if no debug info
+     1>fltkd.lib(Fl_Browser.obj) : warning LNK4204: 'C:\Users\zyork\Source\Repos\Project2\TrainFiles\Debug\vc120.pdb' is missing debugging information for referencing module; linking object as if no debug info
+     1>fltkd.lib(Fl_Browser_.obj) : warning LNK4204: 'C:\Users\zyork\Source\Repos\Project2\TrainFiles\Debug\vc120.pdb' is missing debugging information for referencing module; linking object as if no debug info
+     1>fltkd.lib(Fl_Button.obj) : warning LNK4204: 'C:\Users\zyork\Source\Repos\Project2\TrainFiles\Debug\vc120.pdb' is missing debugging information for referencing module; linking object as if no debug info
+     1>fltkd.lib(Fl_Check_Button.obj) : warning LNK4204: 'C:\Users\zyork\Source\Repos\Project2\TrainFiles\Debug\vc120.pdb' is missing debugging information for referencing module; linking object as if no debug info
+     1>fltkd.lib(Fl_Choice.obj) : warning LNK4204: 'C:\Users\zyork\Source\Repos\Project2\TrainFiles\Debug\vc120.pdb' is missing debugging information for referencing module; linking object as if no debug info
+     1>fltkd.lib(fl_color.obj) : warning LNK4204: 'C:\Users\zyork\Source\Repos\Project2\TrainFiles\Debug\vc120.pdb' is missing debugging information for referencing module; linking object as if no debug info
+     1>fltkd.lib(Fl_compose.obj) : warning LNK4204: 'C:\Users\zyork\Source\Repos\Project2\TrainFiles\Debug\vc120.pdb' is missing debugging information for referencing module; linking object as if no debug info
+     1>fltkd.lib(fl_cursor.obj) : warning LNK4204: 'C:\Users\zyork\Source\Repos\Project2\TrainFiles\Debug\vc120.pdb' is missing debugging information for referencing module; linking object as if no debug info
+     1>fltkd.lib(fl_curve.obj) : warning LNK4204: 'C:\Users\zyork\Source\Repos\Project2\TrainFiles\Debug\vc120.pdb' is missing debugging information for referencing module; linking object as if no debug info
+     1>fltkd.lib(Fl_Device.obj) : warning LNK4204: 'C:\Users\zyork\Source\Repos\Project2\TrainFiles\Debug\vc120.pdb' is missing debugging information for referencing module; linking object as if no debug info
+     1>fltkd.lib(fl_dnd.obj) : warning LNK4204: 'C:\Users\zyork\Source\Repos\Project2\TrainFiles\Debug\vc120.pdb' is missing debugging information for referencing module; linking object as if no debug info
+     1>fltkd.lib(Fl_Double_Window.obj) : warning LNK4204: 'C:\Users\zyork\Source\Repos\Project2\TrainFiles\Debug\vc120.pdb' is missing debugging information for referencing module; linking object as if no debug info
+     1>fltkd.lib(fl_draw.obj) : warning LNK4204: 'C:\Users\zyork\Source\Repos\Project2\TrainFiles\Debug\vc120.pdb' is missing debugging information for referencing module; linking object as if no debug info
+     1>fltkd.lib(fl_draw_image.obj) : warning LNK4204: 'C:\Users\zyork\Source\Repos\Project2\TrainFiles\Debug\vc120.pdb' is missing debugging information for referencing module; linking object as if no debug info
+     1>fltkd.lib(fl_draw_pixmap.obj) : warning LNK4204: 'C:\Users\zyork\Source\Repos\Project2\TrainFiles\Debug\vc120.pdb' is missing debugging information for referencing module; linking object as if no debug info
+     1>fltkd.lib(Fl_File_Browser.obj) : warning LNK4204: 'C:\Users\zyork\Source\Repos\Project2\TrainFiles\Debug\vc120.pdb' is missing debugging information for referencing module; linking object as if no debug info
+     1>fltkd.lib(Fl_File_Chooser.obj) : warning LNK4204: 'C:\Users\zyork\Source\Repos\Project2\TrainFiles\Debug\vc120.pdb' is missing debugging information for referencing module; linking object as if no debug info
+     1>fltkd.lib(Fl_File_Chooser2.obj) : warning LNK4204: 'C:\Users\zyork\Source\Repos\Project2\TrainFiles\Debug\vc120.pdb' is missing debugging information for referencing module; linking object as if no debug info
+     1>fltkd.lib(fl_file_dir.obj) : warning LNK4204: 'C:\Users\zyork\Source\Repos\Project2\TrainFiles\Debug\vc120.pdb' is missing debugging information for referencing module; linking object as if no debug info
+     1>fltkd.lib(Fl_File_Icon.obj) : warning LNK4204: 'C:\Users\zyork\Source\Repos\Project2\TrainFiles\Debug\vc120.pdb' is missing debugging information for referencing module; linking object as if no debug info
+     1>fltkd.lib(Fl_File_Input.obj) : warning LNK4204: 'C:\Users\zyork\Source\Repos\Project2\TrainFiles\Debug\vc120.pdb' is missing debugging information for referencing module; linking object as if no debug info
+     1>fltkd.lib(fl_font.obj) : warning LNK4204: 'C:\Users\zyork\Source\Repos\Project2\TrainFiles\Debug\vc120.pdb' is missing debugging information for referencing module; linking object as if no debug info
+     1>fltkd.lib(Fl_get_system_colors.obj) : warning LNK4204: 'C:\Users\zyork\Source\Repos\Project2\TrainFiles\Debug\vc120.pdb' is missing debugging information for referencing module; linking object as if no debug info
+     1>fltkd.lib(Fl_grab.obj) : warning LNK4204: 'C:\Users\zyork\Source\Repos\Project2\TrainFiles\Debug\vc120.pdb' is missing debugging information for referencing module; linking object as if no debug info
+     1>fltkd.lib(Fl_Group.obj) : warning LNK4204: 'C:\Users\zyork\Source\Repos\Project2\TrainFiles\Debug\vc120.pdb' is missing debugging information for referencing module; linking object as if no debug info
+     1>fltkd.lib(fl_gtk.obj) : warning LNK4204: 'C:\Users\zyork\Source\Repos\Project2\TrainFiles\Debug\vc120.pdb' is missing debugging information for referencing module; linking object as if no debug info
+     1>fltkd.lib(Fl_Image.obj) : warning LNK4204: 'C:\Users\zyork\Source\Repos\Project2\TrainFiles\Debug\vc120.pdb' is missing debugging information for referencing module; linking object as if no debug info
+     1>fltkd.lib(Fl_Input.obj) : warning LNK4204: 'C:\Users\zyork\Source\Repos\Project2\TrainFiles\Debug\vc120.pdb' is missing debugging information for referencing module; linking object as if no debug info
+     1>fltkd.lib(Fl_Input_.obj) : warning LNK4204: 'C:\Users\zyork\Source\Repos\Project2\TrainFiles\Debug\vc120.pdb' is missing debugging information for referencing module; linking object as if no debug info
+     1>fltkd.lib(fl_labeltype.obj) : warning LNK4204: 'C:\Users\zyork\Source\Repos\Project2\TrainFiles\Debug\vc120.pdb' is missing debugging information for referencing module; linking object as if no debug info
+     1>fltkd.lib(Fl_Light_Button.obj) : warning LNK4204: 'C:\Users\zyork\Source\Repos\Project2\TrainFiles\Debug\vc120.pdb' is missing debugging information for referencing module; linking object as if no debug info
+     1>fltkd.lib(fl_line_style.obj) : warning LNK4204: 'C:\Users\zyork\Source\Repos\Project2\TrainFiles\Debug\vc120.pdb' is missing debugging information for referencing module; linking object as if no debug info
+     1>fltkd.lib(Fl_lock.obj) : warning LNK4204: 'C:\Users\zyork\Source\Repos\Project2\TrainFiles\Debug\vc120.pdb' is missing debugging information for referencing module; linking object as if no debug info
+     1>fltkd.lib(Fl_Menu.obj) : warning LNK4204: 'C:\Users\zyork\Source\Repos\Project2\TrainFiles\Debug\vc120.pdb' is missing debugging information for referencing module; linking object as if no debug info
+     1>fltkd.lib(Fl_Menu_.obj) : warning LNK4204: 'C:\Users\zyork\Source\Repos\Project2\TrainFiles\Debug\vc120.pdb' is missing debugging information for referencing module; linking object as if no debug info
+     1>fltkd.lib(Fl_Menu_add.obj) : warning LNK4204: 'C:\Users\zyork\Source\Repos\Project2\TrainFiles\Debug\vc120.pdb' is missing debugging information for referencing module; linking object as if no debug info
+     1>fltkd.lib(Fl_Menu_Button.obj) : warning LNK4204: 'C:\Users\zyork\Source\Repos\Project2\TrainFiles\Debug\vc120.pdb' is missing debugging information for referencing module; linking object as if no debug info
+     1>fltkd.lib(Fl_Menu_Window.obj) : warning LNK4204: 'C:\Users\zyork\Source\Repos\Project2\TrainFiles\Debug\vc120.pdb' is missing debugging information for referencing module; linking object as if no debug info
+     1>fltkd.lib(Fl_Overlay_Window.obj) : warning LNK4204: 'C:\Users\zyork\Source\Repos\Project2\TrainFiles\Debug\vc120.pdb' is missing debugging information for referencing module; linking object as if no debug info
+     1>fltkd.lib(Fl_Pixmap.obj) : warning LNK4204: 'C:\Users\zyork\Source\Repos\Project2\TrainFiles\Debug\vc120.pdb' is missing debugging information for referencing module; linking object as if no debug info
+     1>fltkd.lib(fl_plastic.obj) : warning LNK4204: 'C:\Users\zyork\Source\Repos\Project2\TrainFiles\Debug\vc120.pdb' is missing debugging information for referencing module; linking object as if no debug info
+     1>fltkd.lib(Fl_Preferences.obj) : warning LNK4204: 'C:\Users\zyork\Source\Repos\Project2\TrainFiles\Debug\vc120.pdb' is missing debugging information for referencing module; linking object as if no debug info
+     1>fltkd.lib(fl_read_image.obj) : warning LNK4204: 'C:\Users\zyork\Source\Repos\Project2\TrainFiles\Debug\vc120.pdb' is missing debugging information for referencing module; linking object as if no debug info
+     1>fltkd.lib(fl_rect.obj) : warning LNK4204: 'C:\Users\zyork\Source\Repos\Project2\TrainFiles\Debug\vc120.pdb' is missing debugging information for referencing module; linking object as if no debug info
+     1>fltkd.lib(Fl_Repeat_Button.obj) : warning LNK4204: 'C:\Users\zyork\Source\Repos\Project2\TrainFiles\Debug\vc120.pdb' is missing debugging information for referencing module; linking object as if no debug info
+     1>fltkd.lib(Fl_Return_Button.obj) : warning LNK4204: 'C:\Users\zyork\Source\Repos\Project2\TrainFiles\Debug\vc120.pdb' is missing debugging information for referencing module; linking object as if no debug info
+     1>fltkd.lib(fl_round_box.obj) : warning LNK4204: 'C:\Users\zyork\Source\Repos\Project2\TrainFiles\Debug\vc120.pdb' is missing debugging information for referencing module; linking object as if no debug info
+     1>fltkd.lib(Fl_Scrollbar.obj) : warning LNK4204: 'C:\Users\zyork\Source\Repos\Project2\TrainFiles\Debug\vc120.pdb' is missing debugging information for referencing module; linking object as if no debug info
+     1>fltkd.lib(Fl_Shared_Image.obj) : warning LNK4204: 'C:\Users\zyork\Source\Repos\Project2\TrainFiles\Debug\vc120.pdb' is missing debugging information for referencing module; linking object as if no debug info
+     1>fltkd.lib(fl_shortcut.obj) : warning LNK4204: 'C:\Users\zyork\Source\Repos\Project2\TrainFiles\Debug\vc120.pdb' is missing debugging information for referencing module; linking object as if no debug info
+     1>fltkd.lib(Fl_Single_Window.obj) : warning LNK4204: 'C:\Users\zyork\Source\Repos\Project2\TrainFiles\Debug\vc120.pdb' is missing debugging information for referencing module; linking object as if no debug info
+     1>fltkd.lib(Fl_Slider.obj) : warning LNK4204: 'C:\Users\zyork\Source\Repos\Project2\TrainFiles\Debug\vc120.pdb' is missing debugging information for referencing module; linking object as if no debug info
+     1>fltkd.lib(fl_symbols.obj) : warning LNK4204: 'C:\Users\zyork\Source\Repos\Project2\TrainFiles\Debug\vc120.pdb' is missing debugging information for referencing module; linking object as if no debug info
+     1>fltkd.lib(Fl_Tile.obj) : warning LNK4204: 'C:\Users\zyork\Source\Repos\Project2\TrainFiles\Debug\vc120.pdb' is missing debugging information for referencing module; linking object as if no debug info
+     1>fltkd.lib(Fl_Tiled_Image.obj) : warning LNK4204: 'C:\Users\zyork\Source\Repos\Project2\TrainFiles\Debug\vc120.pdb' is missing debugging information for referencing module; linking object as if no debug info
+     1>fltkd.lib(Fl_Tooltip.obj) : warning LNK4204: 'C:\Users\zyork\Source\Repos\Project2\TrainFiles\Debug\vc120.pdb' is missing debugging information for referencing module; linking object as if no debug info
+     1>fltkd.lib(fl_utf.obj) : warning LNK4204: 'C:\Users\zyork\Source\Repos\Project2\TrainFiles\Debug\vc120.pdb' is missing debugging information for referencing module; linking object as if no debug info
+     1>fltkd.lib(fl_utf8.obj) : warning LNK4204: 'C:\Users\zyork\Source\Repos\Project2\TrainFiles\Debug\vc120.pdb' is missing debugging information for referencing module; linking object as if no debug info
+     1>fltkd.lib(Fl_Valuator.obj) : warning LNK4204: 'C:\Users\zyork\Source\Repos\Project2\TrainFiles\Debug\vc120.pdb' is missing debugging information for referencing module; linking object as if no debug info
+     1>fltkd.lib(Fl_Value_Slider.obj) : warning LNK4204: 'C:\Users\zyork\Source\Repos\Project2\TrainFiles\Debug\vc120.pdb' is missing debugging information for referencing module; linking object as if no debug info
+     1>fltkd.lib(fl_vertex.obj) : warning LNK4204: 'C:\Users\zyork\Source\Repos\Project2\TrainFiles\Debug\vc120.pdb' is missing debugging information for referencing module; linking object as if no debug info
+     1>fltkd.lib(Fl_Widget.obj) : warning LNK4204: 'C:\Users\zyork\Source\Repos\Project2\TrainFiles\Debug\vc120.pdb' is missing debugging information for referencing module; linking object as if no debug info
+     1>fltkd.lib(Fl_Window.obj) : warning LNK4204: 'C:\Users\zyork\Source\Repos\Project2\TrainFiles\Debug\vc120.pdb' is missing debugging information for referencing module; linking object as if no debug info
+     1>fltkd.lib(Fl_Window_hotspot.obj) : warning LNK4204: 'C:\Users\zyork\Source\Repos\Project2\TrainFiles\Debug\vc120.pdb' is missing debugging information for referencing module; linking object as if no debug info
+     1>fltkd.lib(Fl_XBM_Image.obj) : warning LNK4204: 'C:\Users\zyork\Source\Repos\Project2\TrainFiles\Debug\vc120.pdb' is missing debugging information for referencing module; linking object as if no debug info
+     1>fltkd.lib(Fl_XPM_Image.obj) : warning LNK4204: 'C:\Users\zyork\Source\Repos\Project2\TrainFiles\Debug\vc120.pdb' is missing debugging information for referencing module; linking object as if no debug info
+     1>fltkd.lib(flstring.obj) : warning LNK4204: 'C:\Users\zyork\Source\Repos\Project2\TrainFiles\Debug\vc120.pdb' is missing debugging information for referencing module; linking object as if no debug info
+     1>fltkd.lib(is_spacing.obj) : warning LNK4204: 'C:\Users\zyork\Source\Repos\Project2\TrainFiles\Debug\vc120.pdb' is missing debugging information for referencing module; linking object as if no debug info
+     1>fltkd.lib(numericsort.obj) : warning LNK4204: 'C:\Users\zyork\Source\Repos\Project2\TrainFiles\Debug\vc120.pdb' is missing debugging information for referencing module; linking object as if no debug info
+     1>fltkd.lib(scandir.obj) : warning LNK4204: 'C:\Users\zyork\Source\Repos\Project2\TrainFiles\Debug\vc120.pdb' is missing debugging information for referencing module; linking object as if no debug info
+     1>fltkd.lib(screen_xywh.obj) : warning LNK4204: 'C:\Users\zyork\Source\Repos\Project2\TrainFiles\Debug\vc120.pdb' is missing debugging information for referencing module; linking object as if no debug info
+     1>fltkd.lib(vsnprintf.obj) : warning LNK4204: 'C:\Users\zyork\Source\Repos\Project2\TrainFiles\Debug\vc120.pdb' is missing debugging information for referencing module; linking object as if no debug info
          Train.vcxproj -> C:\Users\zyork\Source\Repos\Project2\TrainFiles\Debug\Train.exe
      1>Done Building Project "C:\Users\zyork\Source\Repos\Project2\TrainFiles\Train.vcxproj" (Build target(s)).
 
 Build succeeded.
 
-Time Elapsed 00:00:01.26
+Time Elapsed 00:00:01.70

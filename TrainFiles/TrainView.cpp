@@ -11,6 +11,7 @@
 
 #include <Fl/fl.h>
 #include <math.h>
+#include <time.h>
 
 // we will need OpenGL, and OpenGL needs windows.h
 #include <windows.h>
@@ -20,16 +21,19 @@
 #include <glm/gtx/spline.hpp>
 #include <iostream>
 #include "ShaderTools.H"
-#include "Utilities/Texture.H"
 #include <FL/glu.H>
 #include <FL/glut.H>
+#include "Utilities/Texture.H"
 using namespace std;
 using namespace glm;
 static GLUquadric * q;
 static GLUquadric * p;
-static GLuint shader1, sunShader;
+static GLuint shader1, sunShader, flagShader;
 float pos = 0;
 float deg = 0;
+float flagPos = 0;
+int random = 0;
+int counter = 0;
 int dir = 1;
 //static GLint color;
 static bool loaded;
@@ -42,7 +46,7 @@ static bool loaded;
 TrainView::TrainView(int x, int y, int w, int h, const char* l) : Fl_Gl_Window(x,y,w,h,l)
 {
 	mode( FL_RGB|FL_ALPHA|FL_DOUBLE | FL_STENCIL );
-
+	srand(time(NULL));
 	resetArcball();
 }
 
@@ -206,6 +210,7 @@ void TrainView::draw()
 	//world->train.draw();
 	// we draw everything twice - once for real, and then once for
 	// shadows
+	
 
 	if (!loaded) {
 
@@ -213,7 +218,8 @@ void TrainView::draw()
 			//printf(GLEW_OK);
 			char* err;
 			shader1 = loadShader("vertexShader.c", "fragmentShader.c", err);
-			sunShader = loadShader("sunShader.c", "fragmentShader.c", err);
+			sunShader = loadShader("sunShader.c", "sunFShader.c", err);
+			flagShader = loadShader("flagShader.c", "fragmentShader.c", err);
 			//printf("x = %d\n", shader1);
 			//fprintf(stderr, "Error: %s\n", glewGetErrorString(err));
 			loaded = true;
@@ -224,7 +230,6 @@ void TrainView::draw()
 	GLint time = glGetUniformLocation(sunShader, "time");
 	if (time != -1)
 	{
-		printf("position: %f\n", pos);
 		glUniform1f(time, pos);
 	}
 
@@ -232,7 +237,6 @@ void TrainView::draw()
 	if (y != -1)
 	{
 		float curry = 80 * sin(radians(deg/2));// * 180) / PI);
-		printf("py: %f\n", curry);
 		glUniform1f(y, curry);
 	}
 	deg = nfmod((deg + 1), 720);
@@ -244,6 +248,7 @@ void TrainView::draw()
 	}
 
 	pos += dir * 1;
+
 
 	drawCurve();
 
@@ -427,9 +432,16 @@ void TrainView::drawStuff(bool doingShadows)
 	drawTree(doingShadows, -5, 5, -5);
 	drawTree(doingShadows, 50, 5, 50);
 	drawTree(doingShadows, -35, 5, 50);
-	drawFlag(doingShadows, 0, 0, 0);
+	//drawFlag(doingShadows, 0, 0, 0);
 
 	glUseProgram(0);
+
+	glUseProgram(flagShader);
+	drawFlag(doingShadows);
+
+	glUseProgram(0);
+
+	//fetchTexture("flag.png");
 
 	//drawBalloon();
 
@@ -798,6 +810,7 @@ void TrainView::drawTrain(bool doingShadows)	{
 	gluDisk(q, 0, .1, 100, 100);
 	glPopMatrix();
 	glPopMatrix();
+	//glUniform3f(shaderPos, 0, 0, 0);
 
 }
 
@@ -905,330 +918,65 @@ void TrainView::drawCurve() {
 }
 
 
-void TrainView::drawBalloon() {
-
-	glPushMatrix();
-	glTranslated(0, 10, 10);
-	std::vector<vec3> va_vertices;
-	std::vector<ivec3> va_indices;
-	std::vector<vec3> va_normals;
-	//Source: https://uwmad.courses.wisconsin.edu/d2l/lms/content/viewer/main_frame.d2l?tId=11011796&ou=1821693
-	//Example vertex array code used to figure out vertex arrays
-
-	//GL_CULL_FACE is left enabled as disabling it leads to bizarre ripple effects
-	glDisable(GL_COLOR_MATERIAL); //disabled, so that the color will be determined by the material specified below
-	GLboolean blendAlreadyEnabled;
-	glGetBooleanv(GL_BLEND, &blendAlreadyEnabled); //checks if blending is already enable, to later restore the previous state
-	if (blendAlreadyEnabled) glBlendFunc(GL_ONE, GL_ONE);
-	else glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-	glEnable(GL_BLEND);
-
-	//Unique color and alpha values for each component of light result in giving a unique look to the
-	//model. These values were chosen to simulate the appearance of a shiny, semi-transparent balloon
-	GLfloat material_ambient_gold[] = { 0.25f, 0.20f, 0.08f, 0.8f };//{ 0.7f, 0.6f, 0.6f, 0.7f};
-	GLfloat material_diffuse_gold[] = { 0.75f, 0.61f, 0.22f, 0.8f };//{ 0.7f, 0.6f, 0.6f, 0.7f};
-	GLfloat material_specular_gold[] = { 0.63f, 0.56f, 0.37f, 0.7f };
-	GLfloat material_shininess_gold[] = { .4f * 128.0f };
-
-	GLfloat material_ambient_silver[] = { 0.7f, 0.6f, 0.6f, 0.7f };
-	GLfloat material_diffuse_silver[] = { 0.7f, 0.6f, 0.6f, 0.7f };
-	GLfloat material_specular_silver[] = { 0.7f, 0.6f, 0.6f, 0.7f };
-	GLfloat material_shininess_silver[] = { .25f * 128.0f };
-
-	GLfloat material_ambient_red[] = { 1.0f, 0.1f, 0.1f, 0.8f };//{ 0.7f, 0.6f, 0.6f, 0.7f};
-	GLfloat material_diffuse_red[] = { 1.0f, 0.1f, 0.1f, 0.8f };//{ 0.7f, 0.6f, 0.6f, 0.7f};
-	GLfloat material_specular_red[] = { 0.7f, 0.6f, 0.6f, 0.7f };
-	GLfloat material_shininess_red[] = { 1.0f * 128.0f };
-
-	GLfloat material_ambient_green[] = { 0.1f, 1.0f, 0.1f, 0.8f };//{ 0.7f, 0.6f, 0.6f, 0.7f};
-	GLfloat material_diffuse_green[] = { 0.1f, 1.0f, 0.1f, 0.8f };//{ 0.7f, 0.6f, 0.6f, 0.7f};
-	GLfloat material_specular_green[] = { 0.6f, 0.7f, 0.6f, 0.7f };
-	GLfloat material_shininess_green[] = { .25f * 128.0f };
-
-	GLfloat material_ambient_blue[] = { 0.1f, 0.1f, 1.0f, 0.8f };//{ 0.7f, 0.6f, 0.6f, 0.7f};
-	GLfloat material_diffuse_blue[] = { 0.1f, 0.1f, 1.0f, 0.8f };//{ 0.7f, 0.6f, 0.6f, 0.7f};
-	GLfloat material_specular_blue[] = { 0.6f, 0.6f, 0.7f, 0.7f };
-	GLfloat material_shininess_blue[] = { .25f * 128.0f };
-
-
-	glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, material_ambient_red);
-	glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, material_diffuse_red);
-	glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, material_specular_red);
-	glMaterialfv(GL_FRONT_AND_BACK, GL_SHININESS, material_shininess_red);
-
-
-	//if (va_vertices.size() == 0) {
-
-		GLfloat r;
-		GLfloat o;
-		GLfloat p;
-		r = 1.0;
-
-		//The balloon is drawn by specifying individual vertexes. In this case, the top half of the
-		//balloon is drawn by loops that draw verticle stacks of circles of non-linear radius which are connected to form
-		//a balloon shape. In this case, the circles are made by taking polar coordinates and converting
-		//them back into cartesian.
-
-		//The balloon's unique bottom shape is due to an equation which varies the distance of the stack of circles
-		//from the center of the shape in a non-linear form.
-
-		GLfloat omegaPoints = 91.0f;
-		GLfloat omegaIncrement = 180 / (omegaPoints - 1);
-
-		//The value to increment between the points is determined by the desired space to fill over the number
-		//of points. In this case, a 1 is subtracted from the points, because 0 is counted as the first point
-		//and the loop runs until the value equals the desired size.
-
-		GLfloat phiPoints = 120.0f;
-		GLfloat phiIncrement = 360 / phiPoints;
-
-		//Source: http://electron9.phys.utk.edu/vectors/3dcoordinates.htm used to translate polar to 
-		for (o = (GLfloat)0; o <= (GLfloat)180; o += omegaIncrement) {
-			for (p = (GLfloat)0; p <(GLfloat)360; p += phiIncrement) {
-
-				if (o < .5 * 180) r = (GLfloat)1;
-				else r = (GLfloat)(1 + (1 - cos((o - 90)*(PI / 180))) / 2);
-
-				va_vertices.push_back(glm::vec3((r * sin(o*(PI / 180))* cos(p*(PI / 180))),
-					(r * cos(o*(PI / 180))), (r * sin(o*(PI / 180))* sin(p*(PI / 180)))));
-			}
-		}
-
-		GLfloat height;
-		GLfloat angle;
-		r = 0.0;
-		GLfloat heightPoints = 6.0;
-		GLfloat heightIncrement = 0.1f / (heightPoints - 1);
-
-		//The value to increment between the points is determined by the desired space to fill over the number
-		//of points. In this case, a 1 is subtracted from the points, because 0 is counted as the first point
-		//and the loop runs until the value equals the desired size.
-
-		GLfloat anglePoints = 18.0;
-		GLfloat angleIncrement = 360 / anglePoints;
-
-		GLfloat radialIncreasePerHeightIncrement = 0.02f;
-
-		//A small cone is created on the bottom of the balloon by drawing a stack of circles of a linear radius.
-		//Source: http://electron9.phys.utk.edu/vectors/2dcoordinates.htm used to translate polar to cartesian 2D
-		for (height = (GLfloat)-1.45f; height >= (GLfloat)-1.55f; height -= heightIncrement) {
-			for (angle = 0; angle < 360; angle += angleIncrement){
-				va_vertices.push_back(glm::vec3((r * cos(angle*(PI / 180))), height, (r * sin(angle*(PI / 180)))));
-			}
-			r += radialIncreasePerHeightIncrement;
-		}
-
-		r = 1; //the radius is reset to 1 as it is used later
-
-		//The vertices are then grouped into triangles and have their normals calculated by normalizing 
-		//the result of taking the cross-product between the two sides of every triangle that the vertex is involved in
-		//and summing them. 
-
-		GLfloat a;
-		GLfloat aMax = (omegaPoints - 1) * phiPoints;
-		//Iterates through the loop and connects the vertices into triangular shapes that blur together into the final shape
-		//the max index of the loop does not include the last row of points as each row constructs triangles with the row
-		//beneath it and thus the last row does not need to construct triangles
-		for (a = 0; a < aMax; a++) {
-			//the last vertex in a row is unique as the point considered next to it is actually the first point in the row
-			if (((int)a % (int)phiPoints) != ((int)phiPoints - 1)) {
-				va_indices.push_back(glm::ivec3(a, a + phiPoints + 1, a + phiPoints));
-				va_indices.push_back(glm::ivec3(a, a + 1, a + phiPoints + 1));
-			}
-			else {
-				va_indices.push_back(glm::ivec3(a, a + 1, a + phiPoints));
-				va_indices.push_back(glm::ivec3(a, a - phiPoints + 1, a + 1));
-			}
-			//the top row of normals are easily predicted due to the shape of the balloon, the rest are calculated
-			if (a < phiPoints) {
-				va_normals.push_back(glm::vec3(0, 1, 0));
-			}
-			else {
-
-				//Source: http://glm.g-truc.net/code.html used to figure our normal calculations
-
-				glm::vec3 one;
-				glm::vec3 two;
-				glm::vec3 three;
-				glm::vec3 four;
-				glm::vec3 five;
-				glm::vec3 six;
-
-				//get all points starting at point directly above and going clockwise
-				one = va_vertices[GLuint(a - phiPoints)];
-				//points at the end of the row must wrap around the array to find their neighbor points
-				if (((int)a % (int)phiPoints) != ((int)phiPoints - 1)) {
-					two = va_vertices[GLuint(a + 1)];
-					three = va_vertices[GLuint(a + phiPoints + 1)];
-				}
-				else {
-					two = va_vertices[GLuint(a - phiPoints + 1)];
-					three = va_vertices[GLuint(a + 1)];
-				}
-				four = va_vertices[GLuint(a + phiPoints)];
-				//points at the end of the row must wrap around the array to find their neighbor points
-				if (((int)a % (int)phiPoints) != 0) {
-					five = va_vertices[GLuint(a - 1)];
-					six = va_vertices[GLuint(a - phiPoints - 1)];
-				}
-				else {
-					five = va_vertices[GLuint(a + phiPoints - 1)];
-					six = va_vertices[GLuint(a - 1)];
-				}
-
-				vec3 sum = glm::cross(one - va_vertices[GLuint(a)], two - va_vertices[GLuint(a)]);
-				sum += glm::cross(two - va_vertices[GLuint(a)], three - va_vertices[GLuint(a)]);
-				sum += glm::cross(three - va_vertices[GLuint(a)], four - va_vertices[GLuint(a)]);
-				sum += glm::cross(four - va_vertices[GLuint(a)], five - va_vertices[GLuint(a)]);
-				sum += glm::cross(five - va_vertices[GLuint(a)], six - va_vertices[GLuint(a)]);
-				sum += glm::cross(six - va_vertices[GLuint(a)], one - va_vertices[GLuint(a)]);
-				va_normals.push_back(glm::normalize(sum));
-			}
-		}
-
-		//The preceding loop did not address the final row of normals as it did not need to loop through the final
-		//row to specify vertices. This loop fills in the rest of the normals as they are easily predicted due to the
-		//shape of the balloon.
-		for (a = 0; a < phiPoints; ++a) {
-			va_normals.push_back(glm::vec3(0, -1, 0));
-		}
-
-		//The normals and indices of the cone beneath the balloon are calculated the same way.
-		for (a = 0; a < anglePoints; ++a) {
-			va_normals.push_back(glm::vec3(0, 1, 0));
-		}
-
-		GLfloat initial = omegaPoints * phiPoints;
-		GLfloat b = initial;
-		GLfloat bMax = b + (heightPoints - 1) * anglePoints;
-
-		for (b = omegaPoints * phiPoints; b < bMax; b++) {
-			if (((int)(b - initial) % (int)anglePoints) != ((int)anglePoints - 1)) {
-				va_indices.push_back(glm::ivec3(b, b + anglePoints + 1, b + anglePoints));
-				va_indices.push_back(glm::ivec3(b, b + 1, b + anglePoints + 1));
-			}
-			else {
-				va_indices.push_back(glm::ivec3(b, b + 1, b + anglePoints));
-				va_indices.push_back(glm::ivec3(b, b - anglePoints + 1, b + 1));
-			}
-
-			if (b < initial + anglePoints) {
-				va_normals.push_back(glm::vec3(0, 1, 0));
-			}
-			else {
-				glm::vec3 one;
-				glm::vec3 two;
-				glm::vec3 three;
-				glm::vec3 four;
-				glm::vec3 five;
-				glm::vec3 six;
-
-				//get all points starting at point directly above and going clockwise
-				one = va_vertices[GLuint(b - anglePoints)];
-				if (((int)(b - initial) % (int)anglePoints) != ((int)anglePoints - 1)) {
-					two = va_vertices[GLuint(b + 1)];
-					three = va_vertices[GLuint(b + anglePoints + 1)];
-				}
-				else {
-					two = va_vertices[GLuint(b - anglePoints + 1)];
-					three = va_vertices[GLuint(b + 1)];
-				}
-				four = va_vertices[GLuint(b + anglePoints)];
-				if (((int)(b - initial) % (int)anglePoints) != 0) {
-					five = va_vertices[GLuint(b - 1)];
-					six = va_vertices[GLuint(b - anglePoints - 1)];
-				}
-				else {
-					five = va_vertices[GLuint(b + anglePoints - 1)];
-					six = va_vertices[GLuint(b - 1)];
-				}
-
-				glm::vec3 sum = glm::cross(one - va_vertices[GLuint(b)], two - va_vertices[GLuint(b)]);
-				sum += glm::cross(two - va_vertices[GLuint(b)], three - va_vertices[GLuint(b)]);
-				sum += glm::cross(three - va_vertices[GLuint(b)], four - va_vertices[GLuint(b)]);
-				sum += glm::cross(four - va_vertices[GLuint(b)], five - va_vertices[GLuint(b)]);
-				sum += glm::cross(five - va_vertices[GLuint(b)], six - va_vertices[GLuint(b)]);
-				sum += glm::cross(six - va_vertices[GLuint(b)], one - va_vertices[GLuint(b)]);
-				va_normals.push_back(glm::normalize(sum));
-			}
-		}
-
-		for (a = 0; a < anglePoints; ++a) {
-			for (angle = 0; angle < 360; angle += angleIncrement) {
-				va_normals.push_back(glm::normalize(glm::vec3(r*cos(angle *(PI / 180)), 0, r*sin(angle *(PI / 180)))));
-			}
-		}
-
-	glEnableClientState(GL_VERTEX_ARRAY);
-	glEnableClientState(GL_NORMAL_ARRAY);
-
-	glVertexPointer(3, GL_FLOAT, 0, &va_vertices[0]);
-	glNormalPointer(GL_FLOAT, 0, &va_normals[0]);
-
-	glDrawElements(GL_TRIANGLES, 3 *va_indices.size(), GL_UNSIGNED_INT, &va_indices[0]);
-
-	glDisableClientState(GL_VERTEX_ARRAY);
-	glDisableClientState(GL_NORMAL_ARRAY);
-
-	glPushMatrix();
-	glTranslated(0, -1.55, 0);
-	glRotated(90, 1, 0, 0);
-	//glutSolidTorus((GLdouble) 0.018, (GLdouble) 0.11, (GLint)20, (GLint)20);
-	//Source: http://www.nigels.com/glt/doc/class_glut_torus.html
-	glPopMatrix();
-
-	glEnable(GL_COLOR_MATERIAL);
-	if (!blendAlreadyEnabled){
-		glDisable(GL_BLEND);
-	}
-	else glBlendFunc(GL_ONE, GL_ONE);
-
-	glPopMatrix();
-}
-
-void TrainView::drawFlag(bool doingShadows, int x, int y, int z) {
+void TrainView::drawFlag(bool doingShadows) {
 	p = gluNewQuadric();
 
 	if (doingShadows) {
 		glColor3f(.1, .1, .1);
+		return;
 	}
 	else {
 		glColor3d(0, 1, 0);
 	}
+	flagPos = 0;
 
 	
 	//fetchTexture("Mountain.png");
-
+	GLint flagColor = glGetUniformLocation(flagShader, "color");
 	red = .5;
 	green = .5;
 	blue = .5;
-	glUniform3f(shaderColor, red, green, blue);
+	glUniform3f(flagColor, red, green, blue);
 	glPushMatrix();
-	//glColor3d(.6, .4, .2);
-	glTranslated(x, y, z);
 	glScaled(10, 10, 10);
 	glRotatef(-90, 1, 0, 0);
 	gluCylinder(q, .05, .05, 5, 100, 100);
-	
+
+	random = rand() % 2;
+	if (random == 1){
+		flagPos = 180;
+	} 
+	else {
+		flagPos = 0;
+	}
+	GLint time = glGetUniformLocation(flagShader, "time");
+	if (time != -1)
+	{
+		glUniform1f(time, radians(flagPos));
+	}
+
 	red = 1;
-	green = 1;
+	green = 0;
 	blue = 1;
-	glUniform3f(shaderColor, red, green, blue);
+	glUniform3f(flagColor, red, green, blue);
 	glColor3d(0, 1, 0);
 	glTranslated(0, 0, 4);
 	glRotatef(90, 1, 0, 0);
-	//glRectf(q, .25, .5, .5, 100, 100);
-	glBegin(GL_QUADS);
-	glColor3d(1, 0, 0);
-	glVertex3f(0, 0, 0);
-	glColor3d(1, 1, 0);
-	glVertex3f(2, 0, 0);
-	glColor3d(1, 1, 1);
-	glVertex3f(2, 1, 0);
-	glColor3d(0, 1, 1);
-	glVertex3f(0, 1, 0);
-	glEnd();
+	random = rand() % 5;
+	for (float i = 0; i < 2; i = i + .01) {
+		float j = i + .01;
+		glUniform1f(time, radians(flagPos));
+		flagPos += random;
+		glBegin(GL_QUADS);
+		glVertex3f(i, 0, 0);
+		glVertex3f(j, 0, 0);
+		glVertex3f(j, 1, 0);
+		glVertex3f(i, 1, 0);
+		glEnd();
+	}
 	glPopMatrix();
+	glUniform1f(time, 0);
+	counter++;
 }
 
 // CVS Header - if you don't know what this is, don't worry about it
