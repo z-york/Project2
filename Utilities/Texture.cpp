@@ -352,8 +352,8 @@ void* read_image(char* filename, int type, int *width, int *height)
 //=====================================================================================
 {
 	switch(type){
-		case 0: // TGA
-			return tga_load(filename, width, height, TGA_TRUECOLOR_32);
+		//case 0: // TGA
+			//return tga_load(filename, width, height, TGA_TRUECOLOR_32);
 		case 1: // BMP
 			return read_BMP(filename, width, height);
 		case 2: // GIF

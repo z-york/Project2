@@ -28,10 +28,7 @@
 #include <iostream>
 #include "ShaderTools.H"
 
-//#include "soil.h"
 #include <Utilities/Texture.h>
-
-//#include "Texture.h"
 
 //#include "SOIL.h"
 using namespace std;
@@ -154,7 +151,6 @@ float nfmod(float a, float b)
 // it puts a lot of the work into other routines to simplify things
 void TrainView::draw()
 {
-
 	counter++;
 
 	glViewport(0,0,w(),h());
@@ -233,6 +229,8 @@ void TrainView::draw()
 		printf("x = %d\n", shader1);
 		loaded = true;
 	}
+
+	MapTexture();
 
 	glUseProgram(sunShader);
 	GLint time = glGetUniformLocation(sunShader, "time");
@@ -378,6 +376,7 @@ void TrainView::setProjection()
 // TODO: if you have other objects in the world, make sure to draw them
 void TrainView::drawStuff(bool doingShadows)
 {
+
 	// draw the control points
 	// don't draw the control points if you're driving 
 	// (otherwise you get sea-sick as you drive through them)
@@ -1089,16 +1088,6 @@ void TrainView::drawShip(bool doingShadows){
 
 }
 
-void TrainView::MapTexture(){
-
-	/*
-	int width, height;
-	unsigned char* image = SOIL_load_image("mountain.png", &width, &height, 0, SOIL_LOAD_RGB);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, image);
-	*/
-
-}
-
 void TrainView::drawSun() {
 
 	glPushMatrix();
@@ -1180,6 +1169,7 @@ void TrainView::drawFlag(bool doingShadows) {
 	}
 	flagPos = 0;
 	
+	/*
 	if (flagLoaded == false) {
 		flagTexture = LoadTexture("flag.png");
 		flagLoaded = true;
@@ -1193,7 +1183,7 @@ void TrainView::drawFlag(bool doingShadows) {
 	glTexCoord2f(1, 0); glVertex3i(1, 0, 0);
 	glEnd();
 	//glBindTexture(GL_TEXTURE_2D, flagTexture);
-
+	*/
 
 	GLint flagColor = glGetUniformLocation(flagShader, "color");
 	red = .5;
@@ -1242,53 +1232,42 @@ void TrainView::drawFlag(bool doingShadows) {
 	counter++;
 }
 
-GLuint TrainView::LoadTexture(const char * filename)
-{
+void TrainView::MapTexture(){
 
-	GLuint texture;
+	int s;
 
+	s = 10;
+
+	/*
+	Vertex vertices[] = { Vertex(glm::vec3(-0.5, -0.5, 0)),
+		Vertex(glm::vec3(0, 0.5, 0)),
+		Vertex(glm::vec3(0.5, -0.5, 0)) };
+
+	Mesh mesh(vertices, sizeof(vertices) / sizeof(vertices[0]));
+
+	mesh.Draw();
+	*/
+
+	/*
 	int width, height;
+	unsigned char* image = SOIL_load_image("mountain.png", &width, &height, 0, SOIL_LOAD_RGB);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, image);
+	*/
+	
+	glEnable(GL_TEXTURE_2D);
 
-	unsigned char * data;
+	fetchTexture("flag.png",false,false);
+	glTexParameterf(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR);
+	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	
+	glBegin(GL_QUADS);
+	glTexCoord2f(0, 1); glVertex3i(-100, 100, -100);
+	glTexCoord2f(1, 1); glVertex3i(100, 100, -100);
+	glTexCoord2f(1, 0); glVertex3i(100, 0, -100);
+	glTexCoord2f(0, 0); glVertex3i(-100, 0, -100);
+	glEnd();
+	glDisable(GL_TEXTURE_2D);
 
-	FILE * file;
-
-	file = fopen(filename, "rb");
-
-	if (file == NULL) return 0;
-	width = 512;
-	height = 256;
-	data = (unsigned char *)malloc(width * height * 3);
-	//int size = fseek(file,);
-	fread(data, width * height * 3, 1, file);
-	fclose(file);
-
-	for (int i = 0; i < width * height; ++i)
-	{
-		int index = i * 3;
-		unsigned char B, R;
-		B = data[index];
-		R = data[index + 2];
-
-		data[index] = R;
-		data[index + 2] = B;
-
-	}
-
-
-	glGenTextures(1, &texture);
-	glBindTexture(GL_TEXTURE_2D, texture);
-	glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
-	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_NEAREST);
-
-
-	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-	gluBuild2DMipmaps(GL_TEXTURE_2D, 3, width, height, GL_RGB, GL_UNSIGNED_BYTE, data);
-	free(data);
-
-	return texture;
 }
 
 
