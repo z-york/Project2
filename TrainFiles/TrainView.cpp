@@ -212,6 +212,7 @@ void TrainView::draw()
 	// now draw the ground plane
 	setupFloor();
 	glDisable(GL_LIGHTING);
+	//drawGrass();
 	drawFloor(200,10);
 	glEnable(GL_LIGHTING);
 	setupObjects();
@@ -231,6 +232,8 @@ void TrainView::draw()
 	}
 
 	MapTexture();
+
+	drawGrass();
 
 	glUseProgram(sunShader);
 	GLint time = glGetUniformLocation(sunShader, "time");
@@ -1185,11 +1188,7 @@ void TrainView::drawFlag(bool doingShadows) {
 	//glBindTexture(GL_TEXTURE_2D, flagTexture);
 	*/
 
-	GLint flagColor = glGetUniformLocation(flagShader, "color");
-	red = .5;
-	green = .5;
-	blue = .5;
-	glUniform3f(flagColor, red, green, blue);
+	
 	glPushMatrix();
 	glScaled(10, 10, 10);
 	glRotatef(-90, 1, 0, 0);
@@ -1207,29 +1206,49 @@ void TrainView::drawFlag(bool doingShadows) {
 	{
 		glUniform1f(time, radians(flagPos));
 	}
-
-	red = 1;
-	green = 0;
-	blue = 1;
-	glUniform3f(flagColor, red, green, blue);
 	glColor3d(0, 1, 0);
 	glTranslated(0, 0, 4);
 	glRotatef(90, 1, 0, 0);
 	random = rand() % 5;
+
+	//Code to draw the flag and texture it with the flag.png
 	for (float i = 0; i < 2; i = i + .01) {
 		float j = i + .01;
 		glUniform1f(time, radians(flagPos));
 		flagPos += random;
+		glEnable(GL_TEXTURE_2D);
+
+		fetchTexture("flag.png", false, false);
+		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+
 		glBegin(GL_QUADS);
-		glVertex3f(i, 0, 0);
-		glVertex3f(j, 0, 0);
-		glVertex3f(j, 1, 0);
-		glVertex3f(i, 1, 0);
+		glTexCoord2f(i/2, 1); glVertex3f(i, 1, 0);
+		glTexCoord2f(j/2, 1); glVertex3f(j, 1, 0);
+		glTexCoord2f(j/2, 0); glVertex3f(j, 0, 0);
+		glTexCoord2f(i/2, 0); glVertex3f(i, 0, 0);
 		glEnd();
+		glDisable(GL_TEXTURE_2D);
 	}
 	glPopMatrix();
 	glUniform1f(time, 0);
 	counter++;
+}
+
+void TrainView::drawGrass() {
+	glEnable(GL_TEXTURE_2D);
+
+	fetchTexture("grass.jpg", false, false);
+	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+
+	glBegin(GL_QUADS);
+	glTexCoord2f(0, 1); glVertex3f(-101, .1, 101);
+	glTexCoord2f(1, 1); glVertex3f(101, .1, 101);
+	glTexCoord2f(1, 0); glVertex3f(101, .1, -101);
+	glTexCoord2f(0, 0); glVertex3f(-101, .1, -101);
+	glEnd();
+	glDisable(GL_TEXTURE_2D);
 }
 
 void TrainView::MapTexture(){

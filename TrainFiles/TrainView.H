@@ -76,6 +76,7 @@ public:
 
 	void drawTrain(bool doingShadows);
 	void drawTree(bool doingShadows, int x, int y, int z);
+	void drawGrass();
 
 	void drawTrack(bool doingShadows, float segments, float tension);
 	Pnt3f calcSide(ControlPoint pnt0, ControlPoint pnt1, float t);
