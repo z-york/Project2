@@ -29,7 +29,7 @@
 #include "ShaderTools.H"
 
 //#include "soil.h"
-//#include "Utilities/texture.h"
+#include <Utilities/Texture.h>
 
 //#include "Texture.h"
 
@@ -38,8 +38,8 @@ using namespace std;
 using namespace glm;
 static GLUquadric * q;
 static GLUquadric * p;
-static bool loaded;
-static GLuint shader1 ,skyscraper, sunShader, flagShader;
+static bool loaded, flagLoaded;
+static GLuint shader1 ,skyscraper, sunShader, flagShader, flagTexture;
 float pos = 0;
 float deg = 0;
 float flagPos = 0;
@@ -229,7 +229,7 @@ void TrainView::draw()
 		skyscraper = loadShader("skyscraperv.c", "skyscraperf.c", err);
 		shader1 = loadShader("vertexShader.c", "fragmentShader.c", err);
 		sunShader = loadShader("sunShader.c", "sunFShader.c", err);
-		flagShader = loadShader("flagShader.c", "fragmentShader.c", err);
+		flagShader = loadShader("flagShader.c", "flagFShader.c", err);
 		printf("x = %d\n", shader1);
 		loaded = true;
 	}
@@ -1179,8 +1179,22 @@ void TrainView::drawFlag(bool doingShadows) {
 		glColor3d(0, 1, 0);
 	}
 	flagPos = 0;
+	
+	if (flagLoaded == false) {
+		flagTexture = LoadTexture("flag.png");
+		flagLoaded = true;
+	}
+	glBindTexture(GL_TEXTURE_2D, flagTexture);
+	printf("Texture: %d\n", flagTexture);
+	glBegin(GL_QUADS);
+	glTexCoord2f(0, 0); glVertex3i(0, 0, 0);
+	glTexCoord2f(0, 1); glVertex3i(0, 2, 0);
+	glTexCoord2f(1, 1); glVertex3i(1, 2, 0);
+	glTexCoord2f(1, 0); glVertex3i(1, 0, 0);
+	glEnd();
+	//glBindTexture(GL_TEXTURE_2D, flagTexture);
 
-	//fetchTexture("Mountain.png");
+
 	GLint flagColor = glGetUniformLocation(flagShader, "color");
 	red = .5;
 	green = .5;
@@ -1226,6 +1240,55 @@ void TrainView::drawFlag(bool doingShadows) {
 	glPopMatrix();
 	glUniform1f(time, 0);
 	counter++;
+}
+
+GLuint TrainView::LoadTexture(const char * filename)
+{
+
+	GLuint texture;
+
+	int width, height;
+
+	unsigned char * data;
+
+	FILE * file;
+
+	file = fopen(filename, "rb");
+
+	if (file == NULL) return 0;
+	width = 512;
+	height = 256;
+	data = (unsigned char *)malloc(width * height * 3);
+	//int size = fseek(file,);
+	fread(data, width * height * 3, 1, file);
+	fclose(file);
+
+	for (int i = 0; i < width * height; ++i)
+	{
+		int index = i * 3;
+		unsigned char B, R;
+		B = data[index];
+		R = data[index + 2];
+
+		data[index] = R;
+		data[index + 2] = B;
+
+	}
+
+
+	glGenTextures(1, &texture);
+	glBindTexture(GL_TEXTURE_2D, texture);
+	glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
+	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_NEAREST);
+
+
+	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+	gluBuild2DMipmaps(GL_TEXTURE_2D, 3, width, height, GL_RGB, GL_UNSIGNED_BYTE, data);
+	free(data);
+
+	return texture;
 }
 
 

@@ -85,6 +85,8 @@ public:
 	Pnt3f getPos(float t);
 	Pnt3f getTan(float t);
 	void makeCity(bool doingShadows, int x, int z, int size, int rot);
+
+	GLuint LoadTexture(const char * filename);
 	
 	void MapTexture();
 
