@@ -17,6 +17,7 @@ class TrainWindow;
 class World;
 class Pnt3f;
 class ControlPoint;
+#include "GL\glew.h"
 
 //
 // You might change the TrainView in order to add different objects to
@@ -66,7 +67,12 @@ public:
 	// simple - just remember which cube is selected
 	int selectedCube;
 
-	int color;
+	GLuint shaderColor;
+	GLuint shaderPos;
+
+	GLfloat red;
+	GLfloat green;
+	GLfloat blue;
 
 	void drawTrain(bool doingShadows);
 	void drawTree(bool doingShadows, int x, int y, int z);
@@ -78,6 +84,16 @@ public:
 	Pnt3f calcCurveTan(ControlPoint pnt0, ControlPoint pnt1, ControlPoint pnt2, ControlPoint pnt3, float t, int type);
 	Pnt3f getPos(float t);
 	Pnt3f getTan(float t);
+	void makeCity(bool doingShadows, int x, int z, int size, int rot);
+	
+	void MapTexture();
+
+	void drawCurve();
+	void Skyscraper();
+	void drawShip(bool doingShadows);
+
+	void drawFlag(bool doingShadows);
+	void drawSun();
 
 	int displayListHandle;
 

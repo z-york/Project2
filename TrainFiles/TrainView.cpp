@@ -1,16 +1,21 @@
-// CS559 Train Project
+﻿// CS559 Train Project
 // TrainView class implementation
 // see the header for details
 // look for TODO: to see things you want to add/change
 // 
+#define SOIL_STATIC 1
+
+#include "windows.h"
 #include <GL/glew.h>
 #include "TrainView.H"
 #include "TrainWindow.H"
+//#include "mesh.h"
 
 #include "Utilities/3DUtils.H"
 
 #include <Fl/fl.h>
 #include <math.h>
+#include <time.h>
 
 // we will need OpenGL, and OpenGL needs windows.h
 #include <windows.h>
@@ -18,24 +23,40 @@
 #include "GL/glu.h"
 #include <glm\glm.hpp>
 #include <glm/gtx/spline.hpp>
+#include <FL/glu.H>
+#include <FL/glut.H>
 #include <iostream>
 #include "ShaderTools.H"
+
+//#include "soil.h"
+//#include "Utilities/texture.h"
+
+//#include "Texture.h"
+
+//#include "SOIL.h"
 using namespace std;
 using namespace glm;
 static GLUquadric * q;
 static GLUquadric * p;
-static GLuint shader1;
-//static GLint color;
 static bool loaded;
+static GLuint shader1 ,skyscraper, sunShader, flagShader;
+float pos = 0;
+float deg = 0;
+float flagPos = 0;
+int random = 0;
+int dir = 1;
 #define PI 3.14159265
 #ifdef EXAMPLE_SOLUTION
 #include "TrainExample/TrainExample.H"
 #endif
 
+float counter = 0;
 
 TrainView::TrainView(int x, int y, int w, int h, const char* l) : Fl_Gl_Window(x,y,w,h,l)
 {
 	mode( FL_RGB|FL_ALPHA|FL_DOUBLE | FL_STENCIL );
+
+	srand(time(NULL));
 
 	resetArcball();
 }
@@ -134,6 +155,8 @@ float nfmod(float a, float b)
 void TrainView::draw()
 {
 
+	counter++;
+
 	glViewport(0,0,w(),h());
 
 	// clear the window, be sure to clear the Z-Buffer too
@@ -197,22 +220,48 @@ void TrainView::draw()
 	glEnable(GL_LIGHTING);
 	setupObjects();
 
-	//world->train.draw();
+	// world->train.draw();
 	// we draw everything twice - once for real, and then once for
 	// shadows
 
 	if (!loaded) {
-
-		//if (glewInit() == GLEW_OK) {
-			//printf(GLEW_OK);
-			char* err;
-			shader1 = loadShader("vertexShader.c", "fragmentShader.c", err);
-			printf("x = %d\n", shader1);
-			//fprintf(stderr, "Error: %s\n", glewGetErrorString(err));
-			loaded = true;
-		//}
+		char* err;
+		skyscraper = loadShader("skyscraperv.c", "skyscraperf.c", err);
+		shader1 = loadShader("vertexShader.c", "fragmentShader.c", err);
+		sunShader = loadShader("sunShader.c", "sunFShader.c", err);
+		flagShader = loadShader("flagShader.c", "fragmentShader.c", err);
+		printf("x = %d\n", shader1);
+		loaded = true;
 	}
-	
+
+	glUseProgram(sunShader);
+	GLint time = glGetUniformLocation(sunShader, "time");
+	if (time != -1)
+	{
+		glUniform1f(time, pos);
+	}
+
+	GLint y = glGetUniformLocation(sunShader, "y");
+	if (y != -1)
+	{
+		float curry = 80 * sin(radians(deg / 2));// * 180) / PI);
+		glUniform1f(y, curry);
+	}
+	deg = nfmod((deg + 1), 720);
+	if (pos >= 360) {
+		dir = -1;
+	}
+	else if (pos <= 0) {
+		dir = 1;
+	}
+
+	pos += dir * 1;
+
+
+	drawSun();
+
+	glUseProgram(0);
+
 
 	drawStuff(false);
 
@@ -346,9 +395,10 @@ void TrainView::drawStuff(bool doingShadows)
 	drawTrack(doingShadows, 1, 15);
 	//if (!doingShadows) {
 	//if (!tw->trainCam->value())
-		//world->train.draw();
+	//world->train.draw();
 
-	glUseProgram(shader1);
+	//shader 1
+	glUseProgram(skyscraper);
 	GLint scale = glGetUniformLocation(shader1, "scale");
 	if (scale != -1)
 	{
@@ -359,8 +409,7 @@ void TrainView::drawStuff(bool doingShadows)
 	{
 		glUniform1f(shad, doingShadows);
 	}
-	color = glGetUniformLocation(shader1, "color");
-	
+
 	if (!q)
 	{
 		q = gluNewQuadric();
@@ -369,16 +418,60 @@ void TrainView::drawStuff(bool doingShadows)
 	{
 		p = gluNewQuadric();
 	}
+
+	Skyscraper();
+
+	glUseProgram(0);
+	/*
+	glUseProgram(shader2);
+	GLint time = glGetUniformLocation(shader2, "time");
+	if (time != -1)
+	{
+	glUniform1f(time, counter);
+	}​
+
+	drawShip(false);
+	glUseProgram(0);
+	*/
+
+	//drawCurve();
+
+	makeCity(false, 100, 50, 8.0f, 90);
+
+	glUseProgram(shader1);
+	scale = glGetUniformLocation(shader1, "scale");
+	if (scale != -1)
+	{
+		glUniform1f(scale, 1);
+	}
+	shad = glGetUniformLocation(shader1, "shadows");
+	if (shad != -1)
+	{
+		glUniform1f(shad, doingShadows);
+	}
+	shaderColor = glGetUniformLocation(shader1, "color");
+	shaderPos = glGetUniformLocation(shader1, "pos");
+	drawTree(doingShadows, 50, 5, 50);
+
 	if (!tw->trainCam->value()) {
 		drawTrain(doingShadows);
 	}
 
 	drawTree(doingShadows, -5, 5, -5);
-	drawTree(doingShadows, 50, 5, 50);
+
 	drawTree(doingShadows, -35, 5, 50);
+	
+	
+	glUseProgram(0);
+
+	glUseProgram(flagShader);
+	drawFlag(doingShadows);
 
 	glUseProgram(0);
 
+	//////////////////////
+
+	//////////////////////
 
 	// draw the track
 	// TODO: call your own track drawing code
@@ -602,19 +695,25 @@ glm::vec3 convertToVec(Pnt3f pnt) {
 
 void TrainView::drawTrain(bool doingShadows)	{
 
-	glm::vec3 currColor;
+
+	//glm::vec3 currColor;
 	//If drawing shadows change color to grey
 	if (doingShadows) {
-		currColor = vec3(.1, .1, .1);
+		/*
+		red = 0.1f;
+		green = 0.1f;
+		blue = 0.1f;
+		*/
 	}
 	//Make the train red
 	else {
-		currColor = vec3(1, 0, 0);
+		red = 1.0f;
+		green = 0.0f;
+		blue = 0.0f;
 	}
-	//glUniformMatrix3fv(color, 1, 0, currColor);
+	glUniform3f(shaderColor, red, green, blue);
 	Pnt3f curr = getPos(world->trainU);
 	Pnt3f tan = getTan(world->trainU);
-	
 	//Find the angle between the tangent and starting position of train
 	float deg = glm::degrees((atan2(tan.x, tan.z) - atan2(1, 1)));
 
@@ -622,6 +721,7 @@ void TrainView::drawTrain(bool doingShadows)	{
 	glPushMatrix();
 	//Translated to the right position on the line
 	glTranslated(curr.x, curr.y + 5, curr.z);
+	//glUniform3f(shaderPos, curr.x, curr.y + 5, curr.z);
 	glScaled(10, 10, 10);
 	//Rotated to match the tangent (+135 to correct for drawing the train in different coordinates)
 	glRotated(deg + 135, 0, 1, 0);
@@ -651,6 +751,10 @@ void TrainView::drawTrain(bool doingShadows)	{
 	glPopMatrix();
 
 	//Draw all 4 wheels
+	red = .6;
+	green = .4;
+	blue = .2;
+	glUniform3f(shaderColor, red, green, blue);
 	glPushMatrix();
 	glColor3d(.6, .4, .2);
 	glTranslated(-.65, -.2, .4);
@@ -660,10 +764,18 @@ void TrainView::drawTrain(bool doingShadows)	{
 	glScaled(-1, 1, 1);
 	glColor3d(.6, .4, .2);
 	gluDisk(q, .1, .3, 100, 100);
+	red = 0;
+	green = 0;
+	blue = 0;
+	glUniform3f(shaderColor, red, green, blue);
 	glColor3d(0, 0, 0);
 	gluDisk(q, 0, .1, 100, 100);
 	glPopMatrix();
 
+	red = .6;
+	green = .4;
+	blue = .2;
+	glUniform3f(shaderColor, red, green, blue);
 	glPushMatrix();
 	glColor3d(.6, .4, .2);
 	glTranslated(.65, -.2, .4);
@@ -673,10 +785,18 @@ void TrainView::drawTrain(bool doingShadows)	{
 	glScaled(-1, 1, 1);
 	glColor3d(.6, .4, .2);
 	gluDisk(q, .1, .3, 100, 100);
+	red = 0;
+	green = 0;
+	blue = 0;
+	glUniform3f(shaderColor, red, green, blue);
 	glColor3d(0, 0, 0);
 	gluDisk(q, 0, .1, 100, 100);
 	glPopMatrix();
 
+	red = .6;
+	green = .4;
+	blue = .2;
+	glUniform3f(shaderColor, red, green, blue);
 	glPushMatrix();
 	glColor3d(.6, .4, .2);
 	glRotated(180, -1, 0, 0);
@@ -687,10 +807,18 @@ void TrainView::drawTrain(bool doingShadows)	{
 	glScaled(-1, 1, 1);
 	glColor3d(.6, .4, .2);
 	gluDisk(q, .1, .3, 100, 100);
+	red = 0;
+	green = 0;
+	blue = 0;
+	glUniform3f(shaderColor, red, green, blue);
 	glColor3d(0, 0, 0);
 	gluDisk(q, 0, .1, 100, 100);
 	glPopMatrix();
 
+	red = .6;
+	green = .4;
+	blue = .2;
+	glUniform3f(shaderColor, red, green, blue);
 	glPushMatrix();
 	glColor3d(.6, .4, .2);
 	glRotated(180, -1, 0, 0);
@@ -701,10 +829,15 @@ void TrainView::drawTrain(bool doingShadows)	{
 	glScaled(-1, 1, 1);
 	glColor3d(.6, .4, .2);
 	gluDisk(q, .1, .3, 100, 100);
+	red = 0;
+	green = 0;
+	blue = 0;
+	glUniform3f(shaderColor, red, green, blue);
 	glColor3d(0, 0, 0);
 	gluDisk(q, 0, .1, 100, 100);
 	glPopMatrix();
 	glPopMatrix();
+	//glUniform3f(shaderPos, 0, 0, 0);
 
 }
 
@@ -718,12 +851,20 @@ void TrainView::drawTree(bool doingShadows, int x, int y, int z) {
 		glColor3d(0, 1, 0);
 	}
 
+	red = .6;
+	green = .4;
+	blue = .2;
+	glUniform3f(shaderColor, red, green, blue);
 	glPushMatrix();
-	glColor3d(.6, .4, .2);
+	//glColor3d(.6, .4, .2);
 	glTranslated(x, y, z);
 	glScaled(10, 10, 10);
 	glRotatef(90, 1, 0, 0);
 	gluCylinder(q, .1, .25, .5, 100, 100);
+	red = 0;
+	green = 1;
+	blue = 0;
+	glUniform3f(shaderColor, red, green, blue);
 	glColor3d(0, 1, 0);
 	glTranslated(0, 0, -.5);
 	gluCylinder(q, .25, .5, .5, 100, 100);
@@ -732,6 +873,359 @@ void TrainView::drawTree(bool doingShadows, int x, int y, int z) {
 	glTranslated(0, 0, -.5);
 	gluCylinder(q, 0, .2, .5, 100, 100);
 	glPopMatrix();
+}
+
+void TrainView::makeCity(bool doingShadows, int x, int z, int size, int rot){
+
+	GLfloat s;
+	s = size;
+
+	glPushMatrix();
+	glTranslatef(x, (s*10.0f), z);
+	glRotatef(rot, 0, 1, 0);
+
+	//top
+	glBegin(GL_QUADS);
+	if (!doingShadows) glColor3f(.6, .5, .4);
+	glVertex3f(0.0f, s*10.0f, 0.0f);
+	glVertex3f(0.0f, s*10.0f, s * 3);
+	glVertex3f(s * 3, s*10.0f, s * 3);
+	glVertex3f(s * 3, s*10.0f, 0.0f);
+	glEnd();
+
+	//side
+	glTranslatef(s, 0.0f, 0.0f);
+
+	glBegin(GL_QUADS);
+	glVertex3f(-s, s*10.0f, 0.0f);
+	glVertex3f(s * 2, s*10.0f, 0.0f);
+	glVertex3f(s * 2, -s*10.0f, 0.0f);
+	glVertex3f(-s, -s*10.0f, 0.0f);
+	glEnd();
+
+
+	//side2
+	glTranslatef(0.0f, 0.0f, s * 3);
+	glBegin(GL_QUADS);
+	glVertex3f(-s, s*10.0f, 0.0f);
+	glVertex3f(s * 2, s*10.0f, 0.0f);
+	glVertex3f(s * 2, -s*10.0f, 0.0f);
+	glVertex3f(-s, -s*10.0f, 0.0f);
+	glEnd();
+
+	//side3
+	glRotatef(90, 0, 1, 0);
+	glTranslatef(s, 0.0f, -s);
+	glBegin(GL_QUADS);
+	glVertex3f(-s, s*10.0f, 0.0f);
+	glVertex3f(s * 2, s*10.0f, 0.0f);
+	glVertex3f(s * 2, -s*10.0f, 0.0f);
+	glVertex3f(-s, -s*10.0f, 0.0f);
+	glEnd();
+
+	//side4
+	glRotatef(180, 0, 1, 0);
+	glTranslatef(-s, 0.0f, -s*3.0f);
+	glBegin(GL_QUADS);
+	glVertex3f(-s, s*10.0f, 0.0f);
+	glVertex3f(s * 2, s*10.0f, 0.0f);
+	glVertex3f(s * 2, -s*10.0f, 0.0f);
+	glVertex3f(-s, -s*10.0f, 0.0f);
+	glEnd();
+
+	//windows, pretty messy code
+	glRotatef(90, 0, 1, 0);
+	glTranslatef(-s*.75f + s - s * 2 * 1.2f, s * 9 + s*1.2, -s*1.08f); //easier than texturing
+	for (int i = 0; i < 15; i++){
+		glTranslatef(s * 2 * 1.2f, 0.0f, 0.0f);
+		glTranslatef(0.0f, -s*1.2, 0.0f);
+		for (int j = 0; j < 2; j++){
+			glTranslatef(-s*1.2f, 0.0f, 0.0f);
+			glBegin(GL_QUADS);
+			if (!doingShadows) glColor3f(0.0f, 0.0f, 0.0f);
+			glVertex3f(-s / 2, s / 2, 0.0f);
+			glVertex3f(s / 2, s / 2, 0.0f);
+			glVertex3f(s / 2, -s / 2, 0.0f);
+			glVertex3f(-s / 2, -s / 2, 0.0f);
+			glEnd();
+		}
+	}
+
+
+	glPopMatrix();
+
+}
+
+void TrainView::drawCurve(){
+
+	int deg = 6;
+
+	glPushMatrix();
+	glTranslatef(-40, 10, -65);
+	glRotated(90, 0, 0, 1.0);
+		glBegin(GL_QUAD_STRIP);
+		for (int j = 0; j < 360; j += deg){
+			glVertex3f(cosf(j), +1, sinf(j));
+			glVertex3f(cosf(j), -1, sinf(j));
+		}
+	glEnd();
+	glPopMatrix();
+
+}
+
+void TrainView::Skyscraper(){
+	int deg = 6;
+	glPushMatrix();
+	glTranslatef(-40, 80, -65);
+	glBegin(GL_QUAD_STRIP);
+	for (int j = 0; j < 360; j += deg){
+		glVertex3f(cosf(j), +1, sinf(j));
+		glVertex3f(cosf(j), -1, sinf(j));
+	}
+	glEnd();
+	glPopMatrix();
+}
+
+void TrainView::drawShip(bool doingShadows){
+
+	GLfloat s;
+
+	s = 4.0f;
+
+	glPushMatrix();
+	//made a mistake, this centers the engine
+	glTranslatef(0.0f, 0.0f, -5.0f);
+
+	//top
+	glBegin(GL_TRIANGLES);
+	if (!doingShadows) glColor3ub(45, 25, 35);
+	glVertex3f(-s + s * 2, s, s);
+	glVertex3f(s*3.0f, s, s);
+	glVertex3f(s*3.0f, s*2.0f, s);
+	glEnd();
+
+	glBegin(GL_QUADS);
+	if (!doingShadows) glColor3ub(10, 45, 45);
+	glVertex3f(0.0f, s, 0.0f);
+	glVertex3f(0.0f, s, s * 2);
+	glVertex3f(s * 3, s, s * 2);
+	glVertex3f(s * 3, s, 0.0f);
+	glEnd();
+
+	//left
+	glBegin(GL_TRIANGLES);
+	glVertex3f(0.0f, s, 0.0f);
+	glVertex3f(-s, -s, 0.0f);
+	glVertex3f(s, -s, 0.0f);
+	glEnd();
+
+	glTranslatef(s, 0.0f, 0.0f);
+
+	glBegin(GL_QUADS);
+	glVertex3f(-s, s, 0.0f);
+	glVertex3f(s * 2, s, 0.0f);
+	glVertex3f(s * 2, -s, 0.0f);
+	glVertex3f(-s, -s, 0.0f);
+	glEnd();
+
+	//right
+	glTranslatef(-s, 0.0f, s * 2);
+
+	glBegin(GL_TRIANGLES);
+	glVertex3f(0.0f, s, 0.0f);
+	glVertex3f(-s, -s, 0.0f);
+	glVertex3f(s, -s, 0.0f);
+	glEnd();
+
+	glTranslatef(s, 0.0f, 0.0f);
+
+	glBegin(GL_QUADS);
+	glVertex3f(-s, s, 0.0f);
+	glVertex3f(s * 2, s, 0.0f);
+	glVertex3f(s * 2, -s, 0.0f);
+	glVertex3f(-s, -s, 0.0f);
+	glEnd();
+
+	//back
+	glTranslatef(s * 2, 0.0f, -s);
+
+	glBegin(GL_QUADS);
+	glVertex3f(0.0f, s, s);
+	glVertex3f(0.0f, s, -s);
+	glVertex3f(0.0f, -s, -s);
+	glVertex3f(0.0f, -s, s);
+	glEnd();
+
+	//front
+	if (!doingShadows) glColor3ub(0, 0, 0);
+	glTranslatef(-s * 3, 0.0f, 0.0f);
+	glBegin(GL_QUADS);
+	glVertex3f(0.0f, s, s);
+	glVertex3f(0.0f, s, -s);
+	glVertex3f(-s, -s, -s);
+	glVertex3f(-s, -s, s);
+	glEnd();
+
+
+	//gliders
+	if (!doingShadows) glColor3ub(45, 25, 35);
+	glTranslatef(-s, -s, s);
+	glBegin(GL_QUADS);
+	glVertex3f(0.0f, 0.0f, 0.0f);
+	glVertex3f(s * 4, 0.0f, 0.0f);
+	glVertex3f(s * 4, -s* .5, 0.0f);
+	glVertex3f(s*.5, -s* .5, 0.0f);
+	glEnd();
+
+	glTranslatef(0.0f, 0.0f, -s * 2);
+	glBegin(GL_QUADS);
+	glVertex3f(0.0f, 0.0f, 0.0f);
+	glVertex3f(s * 4, 0.0f, 0.0f);
+	glVertex3f(s * 4, -s * .5, 0.0f);
+	glVertex3f(s*.5, -s * .5, 0.0f);
+	glEnd();
+
+	glPopMatrix();
+
+}
+
+void TrainView::MapTexture(){
+
+	/*
+	int width, height;
+	unsigned char* image = SOIL_load_image("mountain.png", &width, &height, 0, SOIL_LOAD_RGB);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, image);
+	*/
+
+}
+
+void TrainView::drawSun() {
+
+	glPushMatrix();
+	glColor3f(1.0f, 1.0f, 0);
+	glTranslated(-180, 0, -180);
+
+	std::vector<vec3> vertices;
+	std::vector<int> indices;
+
+	int Stacks = 25;
+	int Slices = 25;
+	int Radius = 5;
+	// Calc The Vertices
+	for (int i = 0; i <= Stacks; ++i){
+
+		float V = i / (float)Stacks;
+		float phi = V * PI;
+
+		// Loop Through Slices
+		for (int j = 0; j <= Slices; ++j){
+
+			float U = j / (float)Slices;
+			float theta = U * (PI * 2);
+
+			// Calc The Vertex Positions
+			float x = Radius * cosf(theta) * sinf(phi);
+			float y = Radius *cosf(phi);
+			float z = Radius * sinf(theta) * sinf(phi);
+
+			// Push Back Vertex Data
+			vertices.push_back(glm::vec3(x, y, z));
+		}
+	}
+
+	// Calc The Index Positions
+	for (int i = 0; i < Slices * Stacks + Slices; ++i){
+
+		indices.push_back(i);
+		indices.push_back(i + Slices + 1);
+		indices.push_back(i + Slices);
+
+		indices.push_back(i + Slices + 1);
+		indices.push_back(i);
+		indices.push_back(i + 1);
+	}
+
+
+	glEnableClientState(GL_VERTEX_ARRAY);
+	//lEnableClientState(GL_NORMAL_ARRAY);
+
+	glVertexPointer(3, GL_FLOAT, 0, &vertices[0]);
+	//glNormalPointer(GL_FLOAT, 0, &va_normals[0]);
+
+	glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, &indices[0]);
+
+	glDisableClientState(GL_VERTEX_ARRAY);
+	//glDisableClientState(GL_NORMAL_ARRAY);
+
+	glPushMatrix();
+	glTranslated(0, -1.55, 0);
+	glRotated(90, 1, 0, 0);
+	//glutSolidTorus((GLdouble) 0.018, (GLdouble) 0.11, (GLint)20, (GLint)20);
+	//Source: http://www.nigels.com/glt/doc/class_glut_torus.html
+	glPopMatrix();
+
+	glPopMatrix();
+}
+
+
+void TrainView::drawFlag(bool doingShadows) {
+	p = gluNewQuadric();
+
+	if (doingShadows) {
+		glColor3f(.1, .1, .1);
+		return;
+	}
+	else {
+		glColor3d(0, 1, 0);
+	}
+	flagPos = 0;
+
+	//fetchTexture("Mountain.png");
+	GLint flagColor = glGetUniformLocation(flagShader, "color");
+	red = .5;
+	green = .5;
+	blue = .5;
+	glUniform3f(flagColor, red, green, blue);
+	glPushMatrix();
+	glScaled(10, 10, 10);
+	glRotatef(-90, 1, 0, 0);
+	gluCylinder(q, .05, .05, 5, 100, 100);
+
+	random = rand() % 2;
+	if (random == 1){
+		flagPos = 180;
+	}
+	else {
+		flagPos = 0;
+	}
+	GLint time = glGetUniformLocation(flagShader, "time");
+	if (time != -1)
+	{
+		glUniform1f(time, radians(flagPos));
+	}
+
+	red = 1;
+	green = 0;
+	blue = 1;
+	glUniform3f(flagColor, red, green, blue);
+	glColor3d(0, 1, 0);
+	glTranslated(0, 0, 4);
+	glRotatef(90, 1, 0, 0);
+	random = rand() % 5;
+	for (float i = 0; i < 2; i = i + .01) {
+		float j = i + .01;
+		glUniform1f(time, radians(flagPos));
+		flagPos += random;
+		glBegin(GL_QUADS);
+		glVertex3f(i, 0, 0);
+		glVertex3f(j, 0, 0);
+		glVertex3f(j, 1, 0);
+		glVertex3f(i, 1, 0);
+		glEnd();
+	}
+	glPopMatrix();
+	glUniform1f(time, 0);
+	counter++;
 }
 
 
