@@ -1,5 +1,99 @@
-﻿Build started 5/12/2015 9:35:03 PM.
+﻿Build started 5/12/2015 9:50:40 PM.
+     1>Project "C:\Users\bsekelsk.AD\Source\Repos\Project2\TrainFiles\Train.vcxproj" on node 2 (Build target(s)).
+     1>ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /IC:\Users\zyork\Source\Repos\Project2\Utilities /I"C:\Program Files\glew\include" /I"C:\Program Files (x86)\FLTK 1.3.2\include" /I"C:\Program Files (x86)\glm" /I"C:\Program Files (x86)\glew\include" /I.. /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _CRT_SECURE_NO_WARNINGS /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt TrainView.cpp
+         TrainView.cpp
+     1>c:\users\bsekelsk.ad\source\repos\project2\trainfiles\trainview.cpp(55): warning C4244: 'argument' : conversion from 'time_t' to 'unsigned int', possible loss of data
+     1>c:\users\bsekelsk.ad\source\repos\project2\trainfiles\trainview.cpp(266): warning C4244: 'initializing' : conversion from 'int' to 'float', possible loss of data
+     1>c:\users\bsekelsk.ad\source\repos\project2\trainfiles\trainview.cpp(267): warning C4244: 'initializing' : conversion from 'int' to 'float', possible loss of data
+     1>c:\users\bsekelsk.ad\source\repos\project2\trainfiles\trainview.cpp(371): warning C4244: 'argument' : conversion from 'unsigned int' to 'float', possible loss of data
+     1>c:\users\bsekelsk.ad\source\repos\project2\trainfiles\trainview.cpp(457): warning C4244: 'argument' : conversion from 'float' to 'int', possible loss of data
+     1>c:\users\bsekelsk.ad\source\repos\project2\trainfiles\trainview.cpp(571): warning C4244: 'argument' : conversion from 'int' to 'const float', possible loss of data
+     1>c:\users\bsekelsk.ad\source\repos\project2\trainfiles\trainview.cpp(730): warning C4244: 'initializing' : conversion from 'double' to 'float', possible loss of data
+     1>c:\users\bsekelsk.ad\source\repos\project2\trainfiles\trainview.cpp(765): warning C4305: '=' : truncation from 'double' to 'GLfloat'
+     1>c:\users\bsekelsk.ad\source\repos\project2\trainfiles\trainview.cpp(766): warning C4305: '=' : truncation from 'double' to 'GLfloat'
+     1>c:\users\bsekelsk.ad\source\repos\project2\trainfiles\trainview.cpp(767): warning C4305: '=' : truncation from 'double' to 'GLfloat'
+     1>c:\users\bsekelsk.ad\source\repos\project2\trainfiles\trainview.cpp(785): warning C4305: '=' : truncation from 'double' to 'GLfloat'
+     1>c:\users\bsekelsk.ad\source\repos\project2\trainfiles\trainview.cpp(786): warning C4305: '=' : truncation from 'double' to 'GLfloat'
+     1>c:\users\bsekelsk.ad\source\repos\project2\trainfiles\trainview.cpp(787): warning C4305: '=' : truncation from 'double' to 'GLfloat'
+     1>c:\users\bsekelsk.ad\source\repos\project2\trainfiles\trainview.cpp(806): warning C4305: '=' : truncation from 'double' to 'GLfloat'
+     1>c:\users\bsekelsk.ad\source\repos\project2\trainfiles\trainview.cpp(807): warning C4305: '=' : truncation from 'double' to 'GLfloat'
+     1>c:\users\bsekelsk.ad\source\repos\project2\trainfiles\trainview.cpp(808): warning C4305: '=' : truncation from 'double' to 'GLfloat'
+     1>c:\users\bsekelsk.ad\source\repos\project2\trainfiles\trainview.cpp(828): warning C4305: '=' : truncation from 'double' to 'GLfloat'
+     1>c:\users\bsekelsk.ad\source\repos\project2\trainfiles\trainview.cpp(829): warning C4305: '=' : truncation from 'double' to 'GLfloat'
+     1>c:\users\bsekelsk.ad\source\repos\project2\trainfiles\trainview.cpp(830): warning C4305: '=' : truncation from 'double' to 'GLfloat'
+     1>c:\users\bsekelsk.ad\source\repos\project2\trainfiles\trainview.cpp(857): warning C4305: 'argument' : truncation from 'double' to 'GLfloat'
+     1>c:\users\bsekelsk.ad\source\repos\project2\trainfiles\trainview.cpp(863): warning C4305: '=' : truncation from 'double' to 'GLfloat'
+     1>c:\users\bsekelsk.ad\source\repos\project2\trainfiles\trainview.cpp(864): warning C4305: '=' : truncation from 'double' to 'GLfloat'
+     1>c:\users\bsekelsk.ad\source\repos\project2\trainfiles\trainview.cpp(865): warning C4305: '=' : truncation from 'double' to 'GLfloat'
+     1>c:\users\bsekelsk.ad\source\repos\project2\trainfiles\trainview.cpp(888): warning C4244: '=' : conversion from 'int' to 'GLfloat', possible loss of data
+     1>c:\users\bsekelsk.ad\source\repos\project2\trainfiles\trainview.cpp(891): warning C4244: 'argument' : conversion from 'int' to 'GLfloat', possible loss of data
+     1>c:\users\bsekelsk.ad\source\repos\project2\trainfiles\trainview.cpp(892): warning C4244: 'argument' : conversion from 'int' to 'GLfloat', possible loss of data
+     1>c:\users\bsekelsk.ad\source\repos\project2\trainfiles\trainview.cpp(896): warning C4305: 'argument' : truncation from 'double' to 'GLfloat'
+     1>c:\users\bsekelsk.ad\source\repos\project2\trainfiles\trainview.cpp(945): warning C4244: 'argument' : conversion from 'double' to 'GLfloat', possible loss of data
+     1>c:\users\bsekelsk.ad\source\repos\project2\trainfiles\trainview.cpp(948): warning C4244: 'argument' : conversion from 'double' to 'GLfloat', possible loss of data
+     1>c:\users\bsekelsk.ad\source\repos\project2\trainfiles\trainview.cpp(975): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>c:\users\bsekelsk.ad\source\repos\project2\trainfiles\trainview.cpp(976): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>c:\users\bsekelsk.ad\source\repos\project2\trainfiles\trainview.cpp(989): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>c:\users\bsekelsk.ad\source\repos\project2\trainfiles\trainview.cpp(990): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>c:\users\bsekelsk.ad\source\repos\project2\trainfiles\trainview.cpp(999): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>c:\users\bsekelsk.ad\source\repos\project2\trainfiles\trainview.cpp(1000): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>c:\users\bsekelsk.ad\source\repos\project2\trainfiles\trainview.cpp(1009): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>c:\users\bsekelsk.ad\source\repos\project2\trainfiles\trainview.cpp(1010): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>c:\users\bsekelsk.ad\source\repos\project2\trainfiles\trainview.cpp(1019): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>c:\users\bsekelsk.ad\source\repos\project2\trainfiles\trainview.cpp(1020): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>c:\users\bsekelsk.ad\source\repos\project2\trainfiles\trainview.cpp(1113): warning C4244: 'argument' : conversion from 'double' to 'GLfloat', possible loss of data
+     1>c:\users\bsekelsk.ad\source\repos\project2\trainfiles\trainview.cpp(1114): warning C4244: 'argument' : conversion from 'double' to 'GLfloat', possible loss of data
+     1>c:\users\bsekelsk.ad\source\repos\project2\trainfiles\trainview.cpp(1121): warning C4244: 'argument' : conversion from 'double' to 'GLfloat', possible loss of data
+     1>c:\users\bsekelsk.ad\source\repos\project2\trainfiles\trainview.cpp(1122): warning C4244: 'argument' : conversion from 'double' to 'GLfloat', possible loss of data
+     1>c:\users\bsekelsk.ad\source\repos\project2\trainfiles\trainview.cpp(1147): warning C4244: 'initializing' : conversion from 'double' to 'float', possible loss of data
+     1>c:\users\bsekelsk.ad\source\repos\project2\trainfiles\trainview.cpp(1152): warning C4244: 'initializing' : conversion from 'double' to 'float', possible loss of data
+     1>c:\users\bsekelsk.ad\source\repos\project2\trainfiles\trainview.cpp(1191): warning C4305: 'argument' : truncation from 'double' to 'GLfloat'
+     1>c:\users\bsekelsk.ad\source\repos\project2\trainfiles\trainview.cpp(1222): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+     1>c:\users\bsekelsk.ad\source\repos\project2\trainfiles\trainview.cpp(1223): warning C4244: 'initializing' : conversion from 'double' to 'float', possible loss of data
+     1>c:\users\bsekelsk.ad\source\repos\project2\trainfiles\trainview.cpp(1257): warning C4305: 'argument' : truncation from 'double' to 'GLfloat'
+     1>c:\users\bsekelsk.ad\source\repos\project2\trainfiles\trainview.cpp(1259): warning C4305: 'argument' : truncation from 'double' to 'GLfloat'
+     1>c:\users\bsekelsk.ad\source\repos\project2\trainfiles\trainview.cpp(1261): warning C4305: 'argument' : truncation from 'double' to 'GLfloat'
+     1>c:\users\bsekelsk.ad\source\repos\project2\trainfiles\trainview.cpp(1263): warning C4305: 'argument' : truncation from 'double' to 'GLfloat'
+     1>c:\users\bsekelsk.ad\source\repos\project2\trainfiles\trainview.cpp(1314): warning C4244: 'argument' : conversion from 'int' to 'GLfloat', possible loss of data
+     1>c:\users\bsekelsk.ad\source\repos\project2\trainfiles\trainview.cpp(1315): warning C4244: 'argument' : conversion from 'int' to 'GLfloat', possible loss of data
+     1>c:\users\bsekelsk.ad\source\repos\project2\trainfiles\trainview.cpp(1316): warning C4244: 'argument' : conversion from 'int' to 'GLfloat', possible loss of data
+     1>c:\users\bsekelsk.ad\source\repos\project2\trainfiles\trainview.cpp(1317): warning C4244: 'argument' : conversion from 'int' to 'GLfloat', possible loss of data
+     1>c:\users\bsekelsk.ad\source\repos\project2\trainfiles\trainview.cpp(1327): warning C4244: 'argument' : conversion from 'int' to 'GLfloat', possible loss of data
+     1>c:\users\bsekelsk.ad\source\repos\project2\trainfiles\trainview.cpp(1328): warning C4244: 'argument' : conversion from 'int' to 'GLfloat', possible loss of data
+     1>c:\users\bsekelsk.ad\source\repos\project2\trainfiles\trainview.cpp(1329): warning C4244: 'argument' : conversion from 'int' to 'GLfloat', possible loss of data
+     1>c:\users\bsekelsk.ad\source\repos\project2\trainfiles\trainview.cpp(1330): warning C4244: 'argument' : conversion from 'int' to 'GLfloat', possible loss of data
+     1>c:\users\bsekelsk.ad\source\repos\project2\trainfiles\trainview.cpp(1340): warning C4244: 'argument' : conversion from 'int' to 'GLfloat', possible loss of data
+     1>c:\users\bsekelsk.ad\source\repos\project2\trainfiles\trainview.cpp(1341): warning C4244: 'argument' : conversion from 'int' to 'GLfloat', possible loss of data
+     1>c:\users\bsekelsk.ad\source\repos\project2\trainfiles\trainview.cpp(1342): warning C4244: 'argument' : conversion from 'int' to 'GLfloat', possible loss of data
+     1>c:\users\bsekelsk.ad\source\repos\project2\trainfiles\trainview.cpp(1343): warning C4244: 'argument' : conversion from 'int' to 'GLfloat', possible loss of data
+     1>c:\users\bsekelsk.ad\source\repos\project2\trainfiles\trainview.cpp(1353): warning C4244: 'argument' : conversion from 'int' to 'GLfloat', possible loss of data
+     1>c:\users\bsekelsk.ad\source\repos\project2\trainfiles\trainview.cpp(1354): warning C4244: 'argument' : conversion from 'int' to 'GLfloat', possible loss of data
+     1>c:\users\bsekelsk.ad\source\repos\project2\trainfiles\trainview.cpp(1355): warning C4244: 'argument' : conversion from 'int' to 'GLfloat', possible loss of data
+     1>c:\users\bsekelsk.ad\source\repos\project2\trainfiles\trainview.cpp(1356): warning C4244: 'argument' : conversion from 'int' to 'GLfloat', possible loss of data
+     1>c:\users\bsekelsk.ad\source\repos\project2\trainfiles\trainview.cpp(1366): warning C4244: 'argument' : conversion from 'int' to 'GLfloat', possible loss of data
+     1>c:\users\bsekelsk.ad\source\repos\project2\trainfiles\trainview.cpp(1367): warning C4244: 'argument' : conversion from 'int' to 'GLfloat', possible loss of data
+     1>c:\users\bsekelsk.ad\source\repos\project2\trainfiles\trainview.cpp(1368): warning C4244: 'argument' : conversion from 'int' to 'GLfloat', possible loss of data
+     1>c:\users\bsekelsk.ad\source\repos\project2\trainfiles\trainview.cpp(1369): warning C4244: 'argument' : conversion from 'int' to 'GLfloat', possible loss of data
+     1>c:\users\bsekelsk.ad\source\repos\project2\trainfiles\trainview.cpp(1379): warning C4244: 'argument' : conversion from 'int' to 'GLfloat', possible loss of data
+     1>c:\users\bsekelsk.ad\source\repos\project2\trainfiles\trainview.cpp(1380): warning C4244: 'argument' : conversion from 'int' to 'GLfloat', possible loss of data
+     1>c:\users\bsekelsk.ad\source\repos\project2\trainfiles\trainview.cpp(1381): warning C4244: 'argument' : conversion from 'int' to 'GLfloat', possible loss of data
+     1>c:\users\bsekelsk.ad\source\repos\project2\trainfiles\trainview.cpp(1382): warning C4244: 'argument' : conversion from 'int' to 'GLfloat', possible loss of data
+       Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\bsekelsk.AD\Source\Repos\Project2\TrainFiles\Debug\Train.exe" /INCREMENTAL /NOLOGO /LIBPATH:C:\Users\zyork\Source\Repos\Project2\Utilities /LIBPATH:"C:\Program Files\glew\lib" /LIBPATH:"C:\Program Files (x86)\FLTK 1.3.2\lib" comctl32.lib wsock32.lib opengl32.lib glu32.lib fltkzlibd.lib fltkjpegd.lib fltkpngd.lib fltkimagesd.lib "C:\Program Files\glew\lib\Release\Win32\glew32s.lib" fltkgld.lib fltkd.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Users\bsekelsk.AD\Source\Repos\Project2\TrainFiles\Debug\Train.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE:NO /IMPLIB:"C:\Users\bsekelsk.AD\Source\Repos\Project2\TrainFiles\Debug\Train.lib" /MACHINE:X86 /SAFESEH Debug\Texture.obj
+         Debug\CallBacks.obj
+         Debug\ControlPoint.obj
+         Debug\ShaderTools.obj
+         Debug\Train.obj
+         Debug\TrainView.obj
+         Debug\TrainWindow.obj
+         Debug\World.obj
+         Debug\3DUtils.obj
+         Debug\ArcBallCam.obj
+         Debug\Pnt3f.obj
+         Train.vcxproj -> C:\Users\bsekelsk.AD\Source\Repos\Project2\TrainFiles\Debug\Train.exe
+     1>Done Building Project "C:\Users\bsekelsk.AD\Source\Repos\Project2\TrainFiles\Train.vcxproj" (Build target(s)).
 
 Build succeeded.
 
-Time Elapsed 00:00:00.03
+Time Elapsed 00:00:01.31

@@ -35,7 +35,7 @@ using namespace glm;
 static GLUquadric * q;
 static GLUquadric * p;
 static bool loaded, flagLoaded;
-static GLuint shader1 ,skyscraper, sunShader, flagShader, flagTexture;
+static GLuint shader1, skyscraper, sunShader, flagShader, flagTexture, skyboxshader, shipshader;
 float pos = 0;
 float deg = 0;
 float flagPos = 0;
@@ -225,9 +225,16 @@ void TrainView::draw()
 		shader1 = loadShader("vertexShader.c", "fragmentShader.c", err);
 		sunShader = loadShader("sunShader.c", "sunFShader.c", err);
 		flagShader = loadShader("flagShader.c", "flagFShader.c", err);
+		skyboxshader = loadShader("skyboxv.c", "skyboxf.c", err);
+		shipshader = loadShader("shipshaderv.c", "shipshaderf.c", err);
 		printf("x = %d\n", shader1);
 		loaded = true;
 	}
+
+	//skybox shader
+	glUseProgram(skyboxshader);
+	SkyBox();
+	glUseProgram(0);
 
 	MapTexture();
 
@@ -272,6 +279,34 @@ void TrainView::draw()
 
 
 	drawSun();
+
+	glUseProgram(0);
+
+	glUseProgram(shipshader);
+	time = glGetUniformLocation(shipshader, "time");
+	if (time != -1)
+	{
+		glUniform1f(time, pos);
+	}
+
+
+	GLint x = glGetUniformLocation(shipshader, "x");
+	if (x != -1)
+	{
+		float curry = 30 * sin(radians(deg / 2));
+		glUniform1f(x, curry);
+	}
+	deg = nfmod((deg + 1), 720);
+	if (pos >= 360) {
+		dir = -1;
+	}
+	else if (pos <= 0) {
+		dir = 1;
+	}
+
+	pos += dir * 1;
+
+	drawShip(false);
 
 	glUseProgram(0);
 
@@ -394,14 +429,13 @@ void TrainView::drawStuff(bool doingShadows)
 	//if (!tw->trainCam->value())
 	//world->train.draw();
 
-	//shader 1
 	glUseProgram(skyscraper);
-	GLint scale = glGetUniformLocation(shader1, "scale");
+	GLuint scale = glGetUniformLocation(skyscraper, "scale");
 	if (scale != -1)
 	{
 		glUniform1f(scale, 1);
 	}
-	GLint shad = glGetUniformLocation(shader1, "shadows");
+	GLuint shad = glGetUniformLocation(skyscraper, "shadows");
 	if (shad != -1)
 	{
 		glUniform1f(shad, doingShadows);
@@ -420,7 +454,7 @@ void TrainView::drawStuff(bool doingShadows)
 
 	glUseProgram(0);
 
-	makeCity(false, 100, 50, 8.0f, 90);
+	makeCity(false, 75, 50, 8.0f, 90);
 
 	glUseProgram(shader1);
 	scale = glGetUniformLocation(shader1, "scale");
@@ -949,7 +983,37 @@ void TrainView::drawCurve(){
 void TrainView::Skyscraper(){
 	int deg = 6;
 	glPushMatrix();
-	glTranslatef(-40, 80, -65);
+	glTranslatef(-90, -250, -90);
+	glBegin(GL_QUAD_STRIP);
+	for (int j = 0; j < 360; j += deg){
+		glVertex3f(cosf(j), +1, sinf(j));
+		glVertex3f(cosf(j), -1, sinf(j));
+	}
+	glEnd();
+	glPopMatrix();
+
+	glPushMatrix();
+	glTranslatef(90, -250, 90);
+	glBegin(GL_QUAD_STRIP);
+	for (int j = 0; j < 360; j += deg){
+		glVertex3f(cosf(j), +1, sinf(j));
+		glVertex3f(cosf(j), -1, sinf(j));
+	}
+	glEnd();
+	glPopMatrix();
+
+	glPushMatrix();
+	glTranslatef(-90, -250, 90);
+	glBegin(GL_QUAD_STRIP);
+	for (int j = 0; j < 360; j += deg){
+		glVertex3f(cosf(j), +1, sinf(j));
+		glVertex3f(cosf(j), -1, sinf(j));
+	}
+	glEnd();
+	glPopMatrix();
+
+	glPushMatrix();
+	glTranslatef(90, -250, -90);
 	glBegin(GL_QUAD_STRIP);
 	for (int j = 0; j < 360; j += deg){
 		glVertex3f(cosf(j), +1, sinf(j));
@@ -967,7 +1031,7 @@ void TrainView::drawShip(bool doingShadows){
 
 	glPushMatrix();
 	//made a mistake, this centers the engine
-	glTranslatef(0.0f, 0.0f, -5.0f);
+	glTranslatef(-50, 10, -50);
 
 	//top
 	glBegin(GL_TRIANGLES);
@@ -1220,6 +1284,106 @@ void TrainView::MapTexture(){
 	glTexCoord2f(0, 0); glVertex3i(-100, 0, -100);
 	glEnd();
 	glDisable(GL_TEXTURE_2D);
+
+}
+
+void TrainView::SkyBox(){
+
+	/*
+	//load 6 textures
+	Texture *top = fetchTexture("box1.jpg");
+	Texture* front = fetchTexture("box2.jpg");
+	Texture* back = fetchTexture("box3.jpg");
+	Texture* left = fetchTexture("box4.jpg");
+	Texture* right = fetchTexture("box5.jpg");
+	//Texture* bottom = fetchTexture("box6.jpg");
+	*/
+
+	int s = 400;
+
+	glDepthMask(0);
+
+	glEnable(GL_TEXTURE_2D);
+	fetchTexture("box6.jpg");
+	glTexParameterf(GL_TEXTURE_3D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glTexParameterf(GL_TEXTURE_3D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
+	glBegin(GL_QUADS);
+	glTexCoord2d(1.0f, 0.0f);	glVertex3f(s, s, -s);	// Top Right Of The Quad (Top)
+	glTexCoord2d(1.0f, 1.0f);	glVertex3f(-s, s, -s);	// Top Left Of The Quad (Top)
+	glTexCoord2d(0.0, 1.0f);	glVertex3f(-s, s, s);	// Bottom Left Of The Quad (Top)
+	glTexCoord2d(0.0, 0.0f);	glVertex3f(s, s, s);	// Bottom Right Of The Quad (Top)
+	glEnd();
+
+	fetchTexture("box1.jpg");
+	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
+	glBegin(GL_QUADS);
+	glTexCoord2d(0.0f, 0.0f);	glVertex3f(s, s, s);	// Top Right Of The Quad (Front)
+	glTexCoord2d(1.0f, 0.0f);	glVertex3f(-s, s, s);	// Top Left Of The Quad (Front)
+	glTexCoord2d(1.0f, 1.0f);	glVertex3f(-s, -s, s);	// Bottom Left Of The Quad (Front)
+	glTexCoord2d(0.0f, 1.0f);	glVertex3f(s, -s, s);	// Bottom Right Of The Quad (Front)
+	glEnd();
+
+	fetchTexture("box3.jpg");
+	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
+	glBegin(GL_QUADS);
+	glTexCoord2d(0.0f, 1.0f);	glVertex3f(s, -s, -s);	// Bottom Left Of The Quad (Back)
+	glTexCoord2d(1.0f, 1.0f);	glVertex3f(-s, -s, -s);	// Bottom Right Of The Quad (Back)
+	glTexCoord2d(1.0f, 0.0f);	glVertex3f(-s, s, -s);	// Top Right Of The Quad (Back)
+	glTexCoord2d(0.0f, 0.0f);	glVertex3f(s, s, -s);	// Top Left Of The Quad (Back)
+	glEnd();
+
+	fetchTexture("box4.jpg");
+	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
+	glBegin(GL_QUADS);
+	glTexCoord2d(1.0f, 0.0f);	glVertex3f(-s, s, -s);	// Top Right Of The Quad (Left)
+	glTexCoord2d(1.0f, 1.0f);	glVertex3f(-s, -s, -s);	// Top Left Of The Quad (Left)
+	glTexCoord2d(0.0f, 1.0f);	glVertex3f(-s, -s, s);	// Bottom Left Of The Quad (Left)
+	glTexCoord2d(0.0f, 0.0f);	glVertex3f(-s, s, s);	// Bottom Right Of The Quad (Left)
+	glEnd();
+
+	fetchTexture("box5.jpg");
+	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
+	glBegin(GL_QUADS);
+	glTexCoord2d(0.0f, 0.0f);	glVertex3f(s, s, -s);	// Top Right Of The Quad (Right)
+	glTexCoord2d(1.0f, 0.0f);	glVertex3f(s, s, s);	// Top Left Of The Quad (Right)
+	glTexCoord2d(1.0f, 1.0f);	glVertex3f(s, -s, s);	// Bottom Left Of The Quad (Right)
+	glTexCoord2d(0.0f, 1.0f);	glVertex3f(s, -s, -s);	// Bottom Right Of The Quad (Right)
+	glEnd();
+
+	fetchTexture("box2.jpg");
+	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
+	glBegin(GL_QUADS);
+	glTexCoord2d(0.0f, 0.0f);	glVertex3f(s, -s, -s);	// Bottom
+	glTexCoord2d(1.0f, 0.0f);	glVertex3f(-s, -s, -s);	// 
+	glTexCoord2d(1.0f, 1.0f);	glVertex3f(-s, -s, s);	// 
+	glTexCoord2d(0.0f, 1.0f);	glVertex3f(s, -s, s);	// 
+	glEnd();
+	glDisable(GL_TEXTURE_2D);
+
+	glDepthMask(1);
 
 }
 

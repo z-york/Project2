@@ -95,6 +95,8 @@ public:
 	void Skyscraper();
 	void drawShip(bool doingShadows);
 
+	void SkyBox();
+
 	void drawFlag(bool doingShadows);
 	void drawSun();
 

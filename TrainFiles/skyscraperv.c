@@ -7,7 +7,7 @@ void main(void)
 
 	vec4 a = gl_Vertex;
 	a.x = a.x * scale;
-	a.y = a.y * scale*8;
+	a.y = a.y * scale*25;
 	a.z = a.z * scale;
 
 	gl_Position = gl_ModelViewProjectionMatrix * a;
