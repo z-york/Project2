@@ -30,7 +30,6 @@
 
 #include <Utilities/Texture.h>
 
-//#include "SOIL.h"
 using namespace std;
 using namespace glm;
 static GLUquadric * q;
@@ -217,7 +216,6 @@ void TrainView::draw()
 	glEnable(GL_LIGHTING);
 	setupObjects();
 
-	// world->train.draw();
 	// we draw everything twice - once for real, and then once for
 	// shadows
 
@@ -245,7 +243,7 @@ void TrainView::draw()
 	GLint y = glGetUniformLocation(sunShader, "y");
 	if (y != -1)
 	{
-		float curry = 80 * sin(radians(deg / 2));// * 180) / PI);
+		float curry = 180 * sin(radians(deg / 2));
 		glUniform1f(y, curry);
 	}
 	deg = nfmod((deg + 1), 720);
@@ -257,6 +255,20 @@ void TrainView::draw()
 	}
 
 	pos += dir * 1;
+
+	float r = rand() % 50 + 50;
+	float r2 = rand() % 50 + 50;
+	GLint random1 = glGetUniformLocation(sunShader, "random1");
+	if (random1 != -1)
+	{
+		glUniform1f(random1, r / 100);
+	}
+
+	GLint random2 = glGetUniformLocation(sunShader, "random2");
+	if (random2 != -1)
+	{
+		glUniform1f(random2, r2 / 100);
+	}
 
 
 	drawSun();
@@ -303,7 +315,6 @@ void TrainView::setProjection()
 		glLoadIdentity();
 		glRotatef(90,1,0,0);
 	} else {
-		//Not currently working
 		float wi, he;
 		if (aspect >= 1) {
 			wi = 110;
@@ -313,10 +324,6 @@ void TrainView::setProjection()
 			he = 110;
 			wi = he*aspect;
 		}
-		// TODO: put code for train view projection here!
-		cout << "new tan " << endl;
-		//Pnt3f lookat = getTan(world->trainU);
-		//Pnt3f curr = getPos(world->trainU);
 
 		int curve = tw->splineBrowser->value();
 
@@ -343,7 +350,6 @@ void TrainView::setProjection()
 		Pnt3f uaxis = lookup * waxis;
 		uaxis.normalize();
 		Pnt3f vaxis = waxis * uaxis;
-		// generate orient matrix
 		GLfloat orient[] = {
 			uaxis.x, vaxis.x, waxis.x, 0,
 			uaxis.y, vaxis.y, waxis.y, 0,
@@ -351,20 +357,9 @@ void TrainView::setProjection()
 			0, 0, 0, 1 };
 		glLoadIdentity();
 		glMultMatrixf(orient);
-		// move up a little bit
 		curr = curr + 3.f*lookup;
 		glTranslatef(-curr.x, -curr.y, -curr.z);
 
-		/*
-		float deg = glm::degrees((atan2(lookat.x, lookat.z) - atan2(1, 1)));
-		glMatrixMode(GL_PROJECTION);
-		glLoadIdentity();
-		glOrtho(-wi, wi, -he, he, -200, 200);
-		glMatrixMode(GL_MODELVIEW);
-		glLoadIdentity();
-		glRotatef(90, 0, 1, 0);
-		glTranslatef(curr.x, curr.y , curr.z);
-		*/
 
 #ifdef EXAMPLE_SOLUTION
 		trainCamView(this,aspect);
@@ -424,19 +419,6 @@ void TrainView::drawStuff(bool doingShadows)
 	Skyscraper();
 
 	glUseProgram(0);
-	/*
-	glUseProgram(shader2);
-	GLint time = glGetUniformLocation(shader2, "time");
-	if (time != -1)
-	{
-	glUniform1f(time, counter);
-	}​
-
-	drawShip(false);
-	glUseProgram(0);
-	*/
-
-	//drawCurve();
 
 	makeCity(false, 100, 50, 8.0f, 90);
 
@@ -697,15 +679,9 @@ glm::vec3 convertToVec(Pnt3f pnt) {
 
 void TrainView::drawTrain(bool doingShadows)	{
 
-
-	//glm::vec3 currColor;
 	//If drawing shadows change color to grey
 	if (doingShadows) {
-		/*
-		red = 0.1f;
-		green = 0.1f;
-		blue = 0.1f;
-		*/
+		//Shader will take care of this
 	}
 	//Make the train red
 	else {
@@ -723,7 +699,6 @@ void TrainView::drawTrain(bool doingShadows)	{
 	glPushMatrix();
 	//Translated to the right position on the line
 	glTranslated(curr.x, curr.y + 5, curr.z);
-	//glUniform3f(shaderPos, curr.x, curr.y + 5, curr.z);
 	glScaled(10, 10, 10);
 	//Rotated to match the tangent (+135 to correct for drawing the train in different coordinates)
 	glRotated(deg + 135, 0, 1, 0);
@@ -758,7 +733,6 @@ void TrainView::drawTrain(bool doingShadows)	{
 	blue = .2;
 	glUniform3f(shaderColor, red, green, blue);
 	glPushMatrix();
-	glColor3d(.6, .4, .2);
 	glTranslated(-.65, -.2, .4);
 	gluDisk(q, .1, .3, 100, 100);
 	glColor3d(0, 0, 0);
@@ -839,7 +813,6 @@ void TrainView::drawTrain(bool doingShadows)	{
 	gluDisk(q, 0, .1, 100, 100);
 	glPopMatrix();
 	glPopMatrix();
-	//glUniform3f(shaderPos, 0, 0, 0);
 
 }
 
@@ -858,7 +831,6 @@ void TrainView::drawTree(bool doingShadows, int x, int y, int z) {
 	blue = .2;
 	glUniform3f(shaderColor, red, green, blue);
 	glPushMatrix();
-	//glColor3d(.6, .4, .2);
 	glTranslated(x, y, z);
 	glScaled(10, 10, 10);
 	glRotatef(90, 1, 0, 0);
@@ -867,7 +839,6 @@ void TrainView::drawTree(bool doingShadows, int x, int y, int z) {
 	green = 1;
 	blue = 0;
 	glUniform3f(shaderColor, red, green, blue);
-	glColor3d(0, 1, 0);
 	glTranslated(0, 0, -.5);
 	gluCylinder(q, .25, .5, .5, 100, 100);
 	glTranslated(0, 0, -.5);
@@ -1091,6 +1062,7 @@ void TrainView::drawShip(bool doingShadows){
 
 }
 
+//Draw a circle for the sun
 void TrainView::drawSun() {
 
 	glPushMatrix();
@@ -1103,29 +1075,27 @@ void TrainView::drawSun() {
 	int Stacks = 25;
 	int Slices = 25;
 	int Radius = 5;
-	// Calc The Vertices
+	
+	//Make vertices
 	for (int i = 0; i <= Stacks; ++i){
 
 		float V = i / (float)Stacks;
 		float phi = V * PI;
 
-		// Loop Through Slices
 		for (int j = 0; j <= Slices; ++j){
 
-			float U = j / (float)Slices;
-			float theta = U * (PI * 2);
+			float u = j / (float)Slices;
+			float theta = u * (PI * 2);
 
-			// Calc The Vertex Positions
 			float x = Radius * cosf(theta) * sinf(phi);
 			float y = Radius *cosf(phi);
 			float z = Radius * sinf(theta) * sinf(phi);
 
-			// Push Back Vertex Data
 			vertices.push_back(glm::vec3(x, y, z));
 		}
 	}
 
-	// Calc The Index Positions
+	// Calc The Indices
 	for (int i = 0; i < Slices * Stacks + Slices; ++i){
 
 		indices.push_back(i);
@@ -1139,22 +1109,12 @@ void TrainView::drawSun() {
 
 
 	glEnableClientState(GL_VERTEX_ARRAY);
-	//lEnableClientState(GL_NORMAL_ARRAY);
 
 	glVertexPointer(3, GL_FLOAT, 0, &vertices[0]);
-	//glNormalPointer(GL_FLOAT, 0, &va_normals[0]);
 
 	glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, &indices[0]);
 
 	glDisableClientState(GL_VERTEX_ARRAY);
-	//glDisableClientState(GL_NORMAL_ARRAY);
-
-	glPushMatrix();
-	glTranslated(0, -1.55, 0);
-	glRotated(90, 1, 0, 0);
-	//glutSolidTorus((GLdouble) 0.018, (GLdouble) 0.11, (GLint)20, (GLint)20);
-	//Source: http://www.nigels.com/glt/doc/class_glut_torus.html
-	glPopMatrix();
 
 	glPopMatrix();
 }
@@ -1171,24 +1131,7 @@ void TrainView::drawFlag(bool doingShadows) {
 		glColor3d(0, 1, 0);
 	}
 	flagPos = 0;
-	
-	/*
-	if (flagLoaded == false) {
-		flagTexture = LoadTexture("flag.png");
-		flagLoaded = true;
-	}
-	glBindTexture(GL_TEXTURE_2D, flagTexture);
-	printf("Texture: %d\n", flagTexture);
-	glBegin(GL_QUADS);
-	glTexCoord2f(0, 0); glVertex3i(0, 0, 0);
-	glTexCoord2f(0, 1); glVertex3i(0, 2, 0);
-	glTexCoord2f(1, 1); glVertex3i(1, 2, 0);
-	glTexCoord2f(1, 0); glVertex3i(1, 0, 0);
-	glEnd();
-	//glBindTexture(GL_TEXTURE_2D, flagTexture);
-	*/
 
-	
 	glPushMatrix();
 	glScaled(10, 10, 10);
 	glRotatef(-90, 1, 0, 0);
@@ -1223,16 +1166,19 @@ void TrainView::drawFlag(bool doingShadows) {
 		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 
 		glBegin(GL_QUADS);
-		glTexCoord2f(i/2, 1); glVertex3f(i, 1, 0);
-		glTexCoord2f(j/2, 1); glVertex3f(j, 1, 0);
-		glTexCoord2f(j/2, 0); glVertex3f(j, 0, 0);
-		glTexCoord2f(i/2, 0); glVertex3f(i, 0, 0);
+		glTexCoord2f(i/2, 1); 
+		glVertex3f(i, 1, 0);
+		glTexCoord2f(j/2, 1);
+		glVertex3f(j, 1, 0);
+		glTexCoord2f(j/2, 0); 
+		glVertex3f(j, 0, 0);
+		glTexCoord2f(i/2, 0); 
+		glVertex3f(i, 0, 0);
 		glEnd();
 		glDisable(GL_TEXTURE_2D);
 	}
 	glPopMatrix();
 	glUniform1f(time, 0);
-	counter++;
 }
 
 void TrainView::drawGrass() {
@@ -1243,10 +1189,14 @@ void TrainView::drawGrass() {
 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 
 	glBegin(GL_QUADS);
-	glTexCoord2f(0, 1); glVertex3f(-101, .1, 101);
-	glTexCoord2f(1, 1); glVertex3f(101, .1, 101);
-	glTexCoord2f(1, 0); glVertex3f(101, .1, -101);
-	glTexCoord2f(0, 0); glVertex3f(-101, .1, -101);
+	glTexCoord2f(0, 1); 
+	glVertex3f(-101, .1, 101);
+	glTexCoord2f(1, 1); 
+	glVertex3f(101, .1, 101);
+	glTexCoord2f(1, 0); 
+	glVertex3f(101, .1, -101);
+	glTexCoord2f(0, 0); 
+	glVertex3f(-101, .1, -101);
 	glEnd();
 	glDisable(GL_TEXTURE_2D);
 }
@@ -1256,22 +1206,6 @@ void TrainView::MapTexture(){
 	int s;
 
 	s = 10;
-
-	/*
-	Vertex vertices[] = { Vertex(glm::vec3(-0.5, -0.5, 0)),
-		Vertex(glm::vec3(0, 0.5, 0)),
-		Vertex(glm::vec3(0.5, -0.5, 0)) };
-
-	Mesh mesh(vertices, sizeof(vertices) / sizeof(vertices[0]));
-
-	mesh.Draw();
-	*/
-
-	/*
-	int width, height;
-	unsigned char* image = SOIL_load_image("mountain.png", &width, &height, 0, SOIL_LOAD_RGB);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, image);
-	*/
 	
 	glEnable(GL_TEXTURE_2D);
 
